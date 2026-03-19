@@ -395,6 +395,118 @@ body {
 .spread.fav,
 .spread.dog  { color: #5a7099; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
 
+/* ═══════════════════════════════
+   SCENARIO CALCULATOR
+═══════════════════════════════ */
+.scenario-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 14px;
+  border: 1px solid rgba(124,58,237,0.28);
+  background: #070d1a;
+}
+.sc-header {
+  background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(37,99,235,0.08));
+  border-bottom: 1px solid rgba(124,58,237,0.18);
+  padding: 11px 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sc-title { font-size: 13px; font-weight: 900; color: #c4b5fd; letter-spacing: -0.3px; flex-shrink: 0; }
+.sc-sub   { font-size: 10px; font-weight: 500; color: #3d3060; }
+.sc-controls {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sc-field { display: flex; flex-direction: column; gap: 5px; }
+.sc-label { font-size: 9px; font-weight: 800; letter-spacing: 1.2px; color: #2d3e58; text-transform: uppercase; }
+.sc-select {
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(124,58,237,0.3);
+  border-radius: 8px;
+  color: #c4b5fd;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 12px;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+.sc-select:focus { outline: none; border-color: rgba(124,58,237,0.6); }
+.sc-pills { display: flex; gap: 4px; }
+.sc-pill {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px;
+  color: #2d3e58;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 7px 2px;
+  cursor: pointer;
+  text-align: center;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.sc-pill.active {
+  background: rgba(124,58,237,0.22);
+  border-color: rgba(124,58,237,0.55);
+  color: #c4b5fd;
+}
+.sc-result { padding: 12px 14px 14px; }
+.sc-ms-rows { margin-bottom: 10px; }
+.sc-ms-row {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  gap: 8px;
+}
+.sc-ms-row:last-child { border-bottom: none; }
+.sc-ms-icon  { font-size: 10px; width: 14px; text-align: center; flex-shrink: 0; color: #1e2e44; }
+.sc-ms-label { flex: 1; font-size: 11px; font-weight: 600; color: #1e2e44; }
+.sc-ms-amt   { font-size: 12px; font-weight: 800; color: #1e2e44; }
+.sc-ms-row.earned .sc-ms-icon  { color: #34d399; }
+.sc-ms-row.earned .sc-ms-label { color: #7d9abf; }
+.sc-ms-row.earned .sc-ms-amt   { color: #f0b429; }
+.sc-ms-row.target .sc-ms-icon  { color: #c4b5fd; }
+.sc-ms-row.target .sc-ms-label { color: #c4b5fd; font-weight: 800; }
+.sc-ms-row.target .sc-ms-amt   { color: #c4b5fd; font-weight: 900; font-size: 13px; }
+.sc-ms-row.locked .sc-ms-icon  { color: #1a2535; }
+.sc-ms-row.locked .sc-ms-label { color: #1a2535; }
+.sc-ms-row.locked .sc-ms-amt   { color: #1a2535; }
+.sc-totals {
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.sc-total-row { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; }
+.sc-total-lbl { font-size: 10.5px; font-weight: 600; color: #3d5070; text-transform: uppercase; letter-spacing: 0.3px; }
+.sc-total-val { font-size: 13px; font-weight: 900; color: #fff; }
+.sc-total-val.neg { color: #ef4444; }
+.sc-total-val.pos { color: #10b981; }
+.sc-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 5px 0; }
+.sc-note {
+  background: rgba(124,58,237,0.07);
+  border: 1px solid rgba(124,58,237,0.18);
+  border-left: 3px solid rgba(124,58,237,0.5);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-top: 6px;
+}
+.sc-note-title { font-size: 9px; font-weight: 800; color: #6d28d9; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+.sc-note-body  { font-size: 10.5px; font-weight: 500; color: #8b7ab8; line-height: 1.5; }
+.sc-empty { text-align: center; padding: 22px 16px; color: #2d3e58; font-size: 11px; font-weight: 600; line-height: 1.6; }
+
 </style>
 </head>
 <body>
@@ -856,6 +968,48 @@ body {
   </div>
 </div>
 
+<!-- SCENARIO MODEL -->
+<div class="scenario-wrap">
+  <div class="sc-header">
+    <div class="sc-title">🔮 What-If Calculator</div>
+    <div class="sc-sub">Model any team's payout path</div>
+  </div>
+  <div class="sc-controls">
+    <div class="sc-field">
+      <div class="sc-label">Team</div>
+      <select id="sc-team" class="sc-select" onchange="scCalc()">
+        <option value="">— pick a team —</option>
+        <option value="ndsu">N. Dakota St. (#14 · $100)</option>
+        <option value="msu">Michigan St. (#3 · $475)</option>
+        <option value="vcu">VCU (#11 · $170)</option>
+        <option value="georgia">Georgia (#8 · $220)</option>
+        <option value="kennesaw">Kennesaw St. (#14 · $180)</option>
+        <option value="hofstra">Hofstra (#13 · $140)</option>
+        <option value="akron">Akron (#12 · $280)</option>
+        <option value="arizona">Arizona (#1 · $2,625)</option>
+        <option value="virginia">Virginia (#3 · $375)</option>
+        <option value="ucf">UCF (#10 · $115)</option>
+        <option value="florida">Florida (#1 · $1,550)</option>
+        <option value="missouri">Missouri (#10 · $220)</option>
+      </select>
+    </div>
+    <div class="sc-field">
+      <div class="sc-label">Advances To</div>
+      <div class="sc-pills">
+        <button class="sc-pill" data-r="R1" onclick="scPick(this)">R1</button>
+        <button class="sc-pill" data-r="S16" onclick="scPick(this)">S16</button>
+        <button class="sc-pill" data-r="E8" onclick="scPick(this)">E8</button>
+        <button class="sc-pill active" data-r="F4" onclick="scPick(this)">F4</button>
+        <button class="sc-pill" data-r="Finals" onclick="scPick(this)">Final</button>
+        <button class="sc-pill" data-r="Champ" onclick="scPick(this)">Champ</button>
+      </div>
+    </div>
+  </div>
+  <div id="sc-result" class="sc-result">
+    <div class="sc-empty">Pick a team above<br>to run the scenario</div>
+  </div>
+</div>
+
 <!-- LEGEND -->
 <div class="legend">
   <div class="legend-item"><div class="legend-swatch" style="background:#2563eb"></div>Heavy Fav</div>
@@ -869,6 +1023,129 @@ body {
   Win% = Vegas implied probability · Prizes confirmed from Calcutta spreadsheet<br>
   *S16 pot splits among all #4–16 seeds that advance · E8 pot = #1–3 seeds only
 </div>
+
+
+<script>
+var scRound = 'F4';
+
+var SC_T = {
+  ndsu:     {n:'N. Dakota St.', s:14, paid:100,  top3:false, upset:true,  par:'msu'},
+  msu:      {n:'Michigan St.',  s:3,  paid:475,  top3:true,  upset:false, par:'ndsu'},
+  vcu:      {n:'VCU',           s:11, paid:170,  top3:false, upset:false, par:null},
+  georgia:  {n:'Georgia',       s:8,  paid:220,  top3:false, upset:false, par:null},
+  kennesaw: {n:'Kennesaw St.',  s:14, paid:180,  top3:false, upset:true,  par:null},
+  hofstra:  {n:'Hofstra',       s:13, paid:140,  top3:false, upset:true,  par:null},
+  akron:    {n:'Akron',         s:12, paid:280,  top3:false, upset:false, par:null},
+  arizona:  {n:'Arizona',       s:1,  paid:2625, top3:true,  upset:false, par:null},
+  virginia: {n:'Virginia',      s:3,  paid:375,  top3:true,  upset:false, par:null},
+  ucf:      {n:'UCF',           s:10, paid:115,  top3:false, upset:false, par:null},
+  florida:  {n:'Florida',       s:1,  paid:1550, top3:true,  upset:false, par:null},
+  missouri: {n:'Missouri',      s:10, paid:220,  top3:false, upset:false, par:null}
+};
+
+var SC_R  = ['R1','S16','E8','F4','Finals','Champ'];
+var SC_RL = {R1:'Round 1 Win', S16:'Sweet 16', E8:'Elite 8', F4:'Final Four', Finals:'Champ. Game', Champ:'Champion 🏆'};
+
+function scPick(el) {
+  document.querySelectorAll('.sc-pill').forEach(function(p){ p.classList.remove('active'); });
+  el.classList.add('active');
+  scRound = el.dataset.r;
+  scCalc();
+}
+
+function scCalc() {
+  var tid = document.getElementById('sc-team').value;
+  var res = document.getElementById('sc-result');
+  if (!tid) {
+    res.innerHTML = '<div class="sc-empty">Pick a team above<br>to run the scenario</div>';
+    return;
+  }
+
+  var t  = SC_T[tid];
+  var ti = SC_R.indexOf(scRound);
+
+  /* incremental payout per milestone */
+  var P = t.top3
+    ? {R1:0, S16:0, E8:340, F4:1901, Finals:1086, Champ:2444}
+    : {R1:679, S16:625, E8:0, F4:1901, Finals:1086, Champ:2444};
+  var approxSet = t.top3 ? {} : {R1:true, S16:true};
+
+  /* build milestone rows */
+  var total = 0, rows = '';
+  for (var i = 0; i <= ti; i++) {
+    var r      = SC_R[i];
+    var amt    = P[r];
+    var isTgt  = (i === ti);
+    var locked = (amt === 0);
+    var approx = !!approxSet[r];
+    total += amt;
+
+    var cls  = isTgt ? 'target' : locked ? 'locked' : 'earned';
+    var icon = isTgt ? '◉' : locked ? '—' : '✓';
+    var disp = locked ? '$0' : ((approx ? '~' : '') + '$' + amt.toLocaleString());
+    var pfx  = (amt > 0) ? '+' : '';
+
+    rows += '<div class="sc-ms-row ' + cls + '">'
+          + '<div class="sc-ms-icon">' + icon + '</div>'
+          + '<div class="sc-ms-label">' + SC_RL[r] + '</div>'
+          + '<div class="sc-ms-amt">' + pfx + disp + '</div>'
+          + '</div>';
+  }
+
+  /* summary math */
+  var net    = total - t.paid;
+  var roi    = Math.round((net / t.paid) * 100);
+  var profit = (net >= 0);
+
+  var hasApprox = false;
+  for (var j = 0; j <= ti; j++) {
+    if (approxSet[SC_R[j]] && P[SC_R[j]] > 0) { hasApprox = true; break; }
+  }
+  var ap = hasApprox ? '~' : '';
+
+  var netDisp = (profit ? '+' : '\u2212') + ap + '$' + Math.abs(net).toLocaleString();
+  var roiDisp = (profit ? '+' : '') + roi.toLocaleString() + '%';
+
+  /* notes */
+  var notes = '';
+
+  /* top-3 seeds: explain R1/S16 not paid */
+  if (t.top3 && ti < SC_R.indexOf('E8')) {
+    notes += '<div class="sc-note">'
+           + '<div class="sc-note-title">ℹ️ Payout Structure</div>'
+           + '<div class="sc-note-body">As a #' + t.s + ' seed, ' + t.n + ' is not eligible for R1 or S16 payouts — first collection happens at Elite 8.</div>'
+           + '</div>';
+  }
+
+  /* upset side pot */
+  if (t.upset) {
+    notes += '<div class="sc-note">'
+           + '<div class="sc-note-title">⚡ Side Pot Upside</div>'
+           + '<div class="sc-note-body">' + t.n + ' winning R1 makes them a strong candidate for the Biggest Upset pot (~$1,086 — not included above)</div>'
+           + '</div>';
+  }
+
+  /* owned-both note */
+  if (t.par) {
+    var p2 = SC_T[t.par];
+    notes += '<div class="sc-note" style="margin-top:6px">'
+           + '<div class="sc-note-title">🔄 Paired Game</div>'
+           + '<div class="sc-note-body">You own both teams in this matchup. If ' + t.n + ' advances, ' + p2.n + ' is out in R1.</div>'
+           + '</div>';
+  }
+
+  res.innerHTML =
+      '<div class="sc-ms-rows">' + rows + '</div>'
+    + '<div class="sc-totals">'
+    + '<div class="sc-total-row"><div class="sc-total-lbl">Total Collected</div><div class="sc-total-val">' + ap + '$' + total.toLocaleString() + '</div></div>'
+    + '<div class="sc-total-row"><div class="sc-total-lbl">Paid in Calcutta</div><div class="sc-total-val neg">\u2212$' + t.paid.toLocaleString() + '</div></div>'
+    + '<div class="sc-divider"></div>'
+    + '<div class="sc-total-row"><div class="sc-total-lbl">Net Return</div><div class="sc-total-val ' + (profit ? 'pos' : 'neg') + '">' + netDisp + '</div></div>'
+    + '<div class="sc-total-row"><div class="sc-total-lbl">ROI</div><div class="sc-total-val ' + (profit ? 'pos' : 'neg') + '">' + roiDisp + '</div></div>'
+    + '</div>'
+    + notes;
+}
+</script>
 
 </body>
 </html>
