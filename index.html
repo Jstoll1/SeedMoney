@@ -2,1175 +2,872 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Team Curt — Round 1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    background: #060a10;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    padding: 16px;
-    width: 500px;
-  }
+body {
+  background: #03060c;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 12px;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+}
 
-  /* ═══════════════════════════════
-     HEADER
-  ═══════════════════════════════ */
-  .header {
-    background: linear-gradient(140deg, #0c1526 0%, #111e38 60%, #0c1526 100%);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px;
-    padding: 0;
-    margin-bottom: 16px;
-    overflow: hidden;
-    position: relative;
-  }
-  .header-topbar {
-    height: 3px;
-    background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-  }
-  .header-body {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-    column-gap: 16px;
-    row-gap: 5px;
-    padding: 15px 20px 16px;
-    align-items: baseline;
-  }
-  .header-left { display: contents; }
-  .header-right { display: contents; }
-  .header-title {
-    grid-column: 1;
-    grid-row: 1;
-    color: #fff;
-    font-size: 21px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    line-height: 1;
-  }
-  .header-sub {
-    grid-column: 1;
-    grid-row: 2;
-    color: #4a5a7a;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.1px;
-    white-space: nowrap;
-  }
-  .header-amount {
-    grid-column: 2;
-    grid-row: 1;
-    color: #f0b429;
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: -1.2px;
-    line-height: 1;
-    text-align: right;
-  }
-  .header-meta {
-    grid-column: 2;
-    grid-row: 2;
-    color: #4a5a7a;
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    text-align: right;
-  }
-  .header-meta b {
-    color: #6b7a9a;
-    font-weight: 700;
-  }
+/* ═══════════════════════════════
+   HEADER
+═══════════════════════════════ */
+.header {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: #070d1a;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.header-accent {
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #db2777);
+}
+.header-body {
+  padding: 14px 16px 15px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  column-gap: 14px;
+  row-gap: 5px;
+  align-items: baseline;
+}
+.h-title {
+  grid-column: 1; grid-row: 1;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.h-sub {
+  grid-column: 1; grid-row: 2;
+  color: #3d5070;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.h-amount {
+  grid-column: 2; grid-row: 1;
+  color: #f0b429;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  text-align: right;
+  line-height: 1;
+}
+.h-meta {
+  grid-column: 2; grid-row: 2;
+  color: #3d5070;
+  font-size: 10.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: right;
+}
+.h-meta b { color: #5a7099; font-weight: 700; }
 
-  /* ═══════════════════════════════
-     STAT BAR
-  ═══════════════════════════════ */
-  .stat-bar {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 14px;
-  }
-  .stat-item {
-    flex: 1;
-    background: #0d1220;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 8px 10px;
-    text-align: center;
-  }
-  .stat-val {
-    color: #fff;
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    line-height: 1;
-    margin-bottom: 3px;
-  }
-  .stat-lbl {
-    color: #3d4f6e;
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
+/* ═══════════════════════════════
+   STATS ROW
+═══════════════════════════════ */
+.stats-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.stat {
+  flex: 1;
+  background: #070d1a;
+  border: 1px solid rgba(255,255,255,0.055);
+  border-radius: 10px;
+  padding: 9px 8px;
+  text-align: center;
+}
+.stat-n {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-l {
+  color: #2d3e58;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
 
-  /* ═══════════════════════════════
-     DAY DIVIDER
-  ═══════════════════════════════ */
-  .day-divider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 4px 0 10px;
-  }
-  .day-divider-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #1c2a42, transparent);
-  }
-  .day-divider-label {
-    color: #3d4f6e;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
+/* ═══════════════════════════════
+   DAY HEADER
+═══════════════════════════════ */
+.day-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 8px;
+}
+.day-line { flex: 1; height: 1px; background: #0e1928; }
+.day-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: #2d3e58;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
 
-  /* ═══════════════════════════════
-     BOTH TEAMS NOTE
-  ═══════════════════════════════ */
-  .both-note {
-    background: linear-gradient(135deg, #160e2a, #1c1238);
-    border: 1px solid rgba(139,92,246,0.25);
-    border-left: 3px solid #8b5cf6;
-    border-radius: 10px;
-    padding: 10px 13px;
-    margin-bottom: 7px;
-    display: flex;
-    gap: 9px;
-    align-items: flex-start;
-  }
-  .both-note-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
-  .both-note-text {
-    color: #a89fd5;
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-  .both-note-text strong { color: #c4b5fd; font-weight: 700; }
+/* ═══════════════════════════════
+   BOTH NOTE
+═══════════════════════════════ */
+.both-note {
+  background: #0e0920;
+  border: 1px solid rgba(124,58,237,0.2);
+  border-left: 3px solid #7c3aed;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.bn-icon { font-size: 12px; flex-shrink: 0; padding-top: 1px; }
+.bn-text { color: #8b7ab8; font-size: 11px; font-weight: 500; line-height: 1.5; }
+.bn-text strong { color: #b39ddb; font-weight: 700; }
 
-  /* ═══════════════════════════════
-     GAME CARD
-  ═══════════════════════════════ */
-  .game-card {
-    border-radius: 12px;
-    margin-bottom: 7px;
-    overflow: hidden;
-  }
+/* ═══════════════════════════════
+   GAME CARD — THEME VARS
+═══════════════════════════════ */
+.card.chalk   { --c:#2563eb; --cg:rgba(37,99,235,0.1);  --ct:rgba(37,99,235,0.07); }
+.card.coinflip{ --c:#059669; --cg:rgba(5,150,105,0.1);  --ct:rgba(5,150,105,0.07); }
+.card.dog     { --c:#d97706; --cg:rgba(217,119,6,0.1);  --ct:rgba(217,119,6,0.07); }
+.card.bigdog  { --c:#dc2626; --cg:rgba(220,38,38,0.1);  --ct:rgba(220,38,38,0.07); }
 
-  /* Color themes via CSS custom properties */
-  .game-card.chalk   { --c: #3b82f6; --cg: rgba(59,130,246,0.12); --cb: rgba(59,130,246,0.06); }
-  .game-card.coinflip{ --c: #10b981; --cg: rgba(16,185,129,0.12); --cb: rgba(16,185,129,0.06); }
-  .game-card.dog     { --c: #f59e0b; --cg: rgba(245,158,11,0.12);  --cb: rgba(245,158,11,0.06);  }
-  .game-card.bigdog  { --c: #ef4444; --cg: rgba(239,68,68,0.12);   --cb: rgba(239,68,68,0.06);   }
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 7px;
+  border: 1px solid rgba(255,255,255,0.055);
+  background: #070d1a;
+}
 
-  .card-inner {
-    background: #0d1220;
-    border: 1px solid rgba(255,255,255,0.055);
-    border-left: 3px solid var(--c);
-    position: relative;
-    padding: 12px 14px 11px;
-  }
-  /* subtle wash from left */
-  .card-inner::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 120px; bottom: 0;
-    background: linear-gradient(90deg, var(--cb), transparent);
-    pointer-events: none;
-  }
+/* top accent line per card */
+.card-topline {
+  height: 2px;
+  background: var(--c);
+  opacity: 0.7;
+}
 
-  /* TOP ROW */
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 9px;
-  }
-  .card-left { flex: 1; min-width: 0; }
+/* META BAR — time / channel / location */
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 14px;
+  background: rgba(0,0,0,0.25);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.meta-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.meta-piece {
+  color: #3d5070;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.meta-piece.time { color: #5a7099; }
+.meta-divider { color: #141f30; font-size: 10px; }
+.meta-paid {
+  font-size: 10px;
+  font-weight: 800;
+  color: #c99a20;
+  letter-spacing: 0.2px;
+}
 
-  .badges-row {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 5px;
-  }
-  .region-badge {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.07);
-    color: #5b6a8a;
-    font-size: 9.5px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-  }
-  .upset-badge {
-    background: rgba(139,92,246,0.15);
-    border: 1px solid rgba(139,92,246,0.35);
-    color: #a78bfa;
-    font-size: 8.5px;
-    font-weight: 800;
-    padding: 2px 7px;
-    border-radius: 20px;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-  }
+/* CARD BODY */
+.card-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px 12px;
+  gap: 10px;
+}
 
-  .team-name {
-    color: #fff;
-    font-size: 17px;
-    font-weight: 900;
-    letter-spacing: -0.4px;
-    line-height: 1.1;
-    margin-bottom: 3px;
-  }
-  .team-name-seed {
-    color: #4a5a78;
-    font-size: 13px;
-    font-weight: 700;
-    margin-right: 3px;
-  }
+.card-info { flex: 1; min-width: 0; }
 
-  .matchup-line {
-    color: #384d6a;
-    font-size: 10.5px;
-    font-weight: 500;
-    margin-bottom: 7px;
-  }
-  .matchup-opp { color: #4f6080; font-weight: 700; }
+.badge-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.region-badge {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: #3d5070;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.upset-badge {
+  background: rgba(124,58,237,0.12);
+  border: 1px solid rgba(124,58,237,0.3);
+  color: #a78bfa;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
 
-  /* PILL TAGS */
-  .pills-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: 600;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
-    color: #5b6a8a;
-    white-space: nowrap;
-  }
-  .pill.paid {
-    background: rgba(240,180,41,0.1);
-    border-color: rgba(240,180,41,0.22);
-    color: #e8b030;
-    font-weight: 700;
-  }
-  .pill-i { font-size: 9px; }
+.team-name {
+  font-size: 19px;
+  font-weight: 900;
+  color: #f0f4ff;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+.team-seed {
+  color: #2d3e58;
+  font-size: 14px;
+  font-weight: 800;
+  margin-right: 3px;
+}
+.matchup {
+  font-size: 11px;
+  font-weight: 500;
+  color: #2d3e58;
+}
+.matchup span { color: #3d5070; font-weight: 700; }
 
-  /* WIN % RING */
-  .card-right {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-  .win-ring {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2.5px solid var(--c);
-    box-shadow: 0 0 14px var(--cg), inset 0 0 14px var(--cg);
-    background: rgba(0,0,0,0.35);
-  }
-  .win-num {
-    color: var(--c);
-    font-size: 20px;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.5px;
-    display: inline-block;
-  }
-  .win-pct-sym {
-    color: var(--c);
-    font-size: 10px;
-    font-weight: 800;
-    opacity: 0.8;
-    vertical-align: super;
-    line-height: 0;
-  }
-  .win-label {
-    color: #2e3e5a;
-    font-size: 8px;
-    font-weight: 700;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    line-height: 1.3;
-    max-width: 60px;
-  }
+/* WIN BOX — rectangle scoreboard style */
+.win-box {
+  flex-shrink: 0;
+  background: rgba(0,0,0,0.45);
+  border: 1.5px solid var(--c);
+  border-radius: 8px;
+  padding: 10px 13px 8px;
+  text-align: center;
+  min-width: 66px;
+  box-shadow: 0 0 16px var(--cg);
+}
+.win-pct {
+  color: var(--c);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.win-sym {
+  font-size: 11px;
+  font-weight: 800;
+  vertical-align: super;
+  line-height: 0;
+  opacity: 0.75;
+}
+.win-lbl {
+  color: var(--c);
+  font-size: 7.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
 
-  /* ═══════════════════════════════
-     MILESTONE TRACK
-  ═══════════════════════════════ */
-  .milestones {
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding-top: 9px;
-  }
-  .ms-track {
-    display: flex;
-    gap: 3px;
-  }
-  .ms {
-    flex: 1;
-    text-align: center;
-    padding: 6px 2px 5px;
-    border-radius: 7px;
-    position: relative;
-  }
-  .ms.active   { background: rgba(255,255,255,0.04); }
-  .ms.breakeven{
-    background: rgba(16,185,129,0.1);
-    border: 1px solid rgba(16,185,129,0.28);
-  }
-  .ms.locked   { opacity: 0.28; }
+/* ═══════════════════════════════
+   MILESTONE STRIP
+═══════════════════════════════ */
+.milestones {
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+}
+.ms {
+  flex: 1;
+  padding: 7px 4px 7px;
+  text-align: center;
+  position: relative;
+}
+.ms + .ms {
+  border-left: 1px solid rgba(255,255,255,0.04);
+}
+.ms.active   { background: rgba(255,255,255,0.02); }
+.ms.breakeven{ background: rgba(5,150,105,0.08); }
+.ms.locked   { opacity: 0.22; }
 
-  .ms-lbl {
-    font-size: 8px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #2e3e5a;
-    margin-bottom: 3px;
-  }
-  .ms.active    .ms-lbl { color: #4a5a7a; }
-  .ms.breakeven .ms-lbl { color: #6ee7b7; }
+.ms-l {
+  font-size: 7.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1e2e44;
+  margin-bottom: 4px;
+}
+.ms.active    .ms-l { color: #3d5070; }
+.ms.breakeven .ms-l { color: #34d399; }
 
-  .ms-amt {
-    font-size: 10px;
-    font-weight: 800;
-    color: #2e3e5a;
-    line-height: 1.15;
-  }
-  .ms.active    .ms-amt { color: #dba83a; }
-  .ms.breakeven .ms-amt { color: #10b981; }
-  .ms.locked    .ms-amt { color: #ffffff; font-size: 10px; font-weight: 700; }
+.ms-v {
+  font-size: 10px;
+  font-weight: 800;
+  color: #1e2e44;
+  line-height: 1;
+}
+.ms.active    .ms-v { color: #c99a20; }
+.ms.breakeven .ms-v { color: #10b981; }
+.ms.locked    .ms-v { color: #ffffff; }
 
-  .ms-be-tag {
-    font-size: 7px;
-    color: #10b981;
-    font-weight: 800;
-    margin-top: 2px;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-  }
+.ms-be {
+  font-size: 7px;
+  color: #10b981;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
 
-  /* ═══════════════════════════════
-     LEGEND
-  ═══════════════════════════════ */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-    padding: 11px 14px;
-    background: #0d1220;
-    border: 1px solid rgba(255,255,255,0.055);
-    border-radius: 10px;
-    margin-top: 14px;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 10px;
-    color: #4a5a7a;
-    font-weight: 500;
-  }
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
+/* ═══════════════════════════════
+   LEGEND
+═══════════════════════════════ */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 10px 14px;
+  background: #070d1a;
+  border: 1px solid rgba(255,255,255,0.055);
+  border-radius: 10px;
+  margin-top: 12px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #3d5070;
+  font-weight: 500;
+}
+.legend-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
 
-  /* ═══════════════════════════════
-     FOOTER
-  ═══════════════════════════════ */
-  .footer {
-    text-align: center;
-    color: #263040;
-    font-size: 9.5px;
-    line-height: 1.7;
-    margin-top: 10px;
-    font-weight: 400;
-  }
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+.footer {
+  text-align: center;
+  color: #1e2e44;
+  font-size: 9.5px;
+  line-height: 1.7;
+  margin-top: 10px;
+}
+
+.spread {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  letter-spacing: 0.2px;
+}
+.spread.fav,
+.spread.dog  { color: #5a7099; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+
 </style>
 </head>
 <body>
 
-<!-- ══════════ HEADER ══════════ -->
+<!-- HEADER -->
 <div class="header">
-  <div class="header-topbar"></div>
+  <div class="header-accent"></div>
   <div class="header-body">
-    <div class="header-left">
-      <div class="header-title">🏀 Team Curt</div>
-      <div class="header-sub">2026 March Madness Calcutta — Round 1</div>
-    </div>
-    <div class="header-right">
-      <div class="header-amount">$6,450</div>
-      <div class="header-meta">Total invested &nbsp;·&nbsp; <b>24%</b> of $27,160 pot</div>
-    </div>
+    <div class="h-title">🏀 Team Curt</div>
+    <div class="h-amount">$6,450</div>
+    <div class="h-sub">2026 March Madness Calcutta — Round 1</div>
+    <div class="h-meta"><b>24%</b> of $27,160 pot</div>
   </div>
 </div>
 
-<!-- ══════════ STATS BAR ══════════ -->
-<div class="stat-bar">
-  <div class="stat-item">
-    <div class="stat-val">12</div>
-    <div class="stat-lbl">Teams</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-val">7</div>
-    <div class="stat-lbl">Games Thu</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-val">5</div>
-    <div class="stat-lbl">Games Fri</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-val" style="color:#10b981">$6,450</div>
-    <div class="stat-lbl">Break Even</div>
-  </div>
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat"><div class="stat-n">12</div><div class="stat-l">Teams</div></div>
+  <div class="stat"><div class="stat-n">5</div><div class="stat-l">Thu Games</div></div>
+  <div class="stat"><div class="stat-n">7</div><div class="stat-l">Fri Games</div></div>
+  <div class="stat"><div class="stat-n" style="color:#10b981">$6,450</div><div class="stat-l">Break Even</div></div>
 </div>
 
-<!-- ══════════ THURSDAY ══════════ -->
-<div class="day-divider">
-  <div class="day-divider-line"></div>
-  <div class="day-divider-label">Thursday · March 19</div>
-  <div class="day-divider-line"></div>
+<!-- ──────── THURSDAY ──────── -->
+<div class="day-header">
+  <div class="day-line"></div>
+  <div class="day-label">Thursday · March 19</div>
+  <div class="day-line"></div>
 </div>
 
-<!-- BOTH TEAMS NOTE -->
 <div class="both-note">
-  <div class="both-note-icon">⚡</div>
-  <div class="both-note-text">
-    <strong>You own BOTH teams at 4:05 PM</strong> — Michigan St. (#3) vs N. Dakota St. (#14) on TNT in Buffalo. One of them is advancing no matter what.
-  </div>
+  <div class="bn-icon">⚡</div>
+  <div class="bn-text"><strong>You own BOTH teams at 4:05 PM</strong> — Michigan St. vs N. Dakota St. on TNT in Buffalo. One advances no matter what.</div>
 </div>
 
 <!-- N. DAKOTA ST -->
-<div class="game-card bigdog">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#14 East</span>
-          <span class="upset-badge">UPSET?</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#14</span>N. Dakota St.</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(3) Michigan St.</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>4:05 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TNT</span>
-          <span class="pill"><span class="pill-i">📍</span>Buffalo</span>
-          <span class="pill paid">Paid $100</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">6<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card bigdog">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">4:05 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TNT</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Buffalo</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
+    <span class="meta-paid">Paid $100</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row">
+        <span class="region-badge">#14 East</span>
+        <span class="upset-badge">Upset?</span>
       </div>
+      <div class="team-name"><span class="team-seed">#14</span>N. Dakota St.</div>
+      <div class="matchup">vs <span>(3) Michigan St.</span><span class="spread dog">+16.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">6<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- MICHIGAN ST -->
-<div class="game-card chalk">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#3 East</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#3</span>Michigan St.</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(14) N. Dakota St.</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>4:05 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TNT</span>
-          <span class="pill"><span class="pill-i">📍</span>Buffalo</span>
-          <span class="pill paid">Paid $475</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">94<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card chalk">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">4:05 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TNT</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Buffalo</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms locked">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$340</div>
-        </div>
-        <div class="ms breakeven">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $475</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#3 East</span></div>
+      <div class="team-name"><span class="team-seed">#3</span>Michigan St.</div>
+      <div class="matchup">vs <span>(14) N. Dakota St.</span><span class="spread fav">-16.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">94<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
+    <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">E8</div><div class="ms-v">$340</div></div>
+    <div class="ms breakeven"><div class="ms-l">F4</div><div class="ms-v">$1,901</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- VCU -->
-<div class="game-card coinflip">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#11 South</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#11</span>VCU</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(6) UNC</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>6:50 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TNT</span>
-          <span class="pill"><span class="pill-i">📍</span>Greenville</span>
-          <span class="pill paid">Paid $170</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">43<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card coinflip">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">6:50 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TNT</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Greenville</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $170</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#11 South</span></div>
+      <div class="team-name"><span class="team-seed">#11</span>VCU</div>
+      <div class="matchup">vs <span>(6) UNC</span><span class="spread dog">+2.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">43<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- GEORGIA -->
-<div class="game-card coinflip">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#8 MW</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#8</span>Georgia</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(9) Saint Louis</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>9:45 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>CBS</span>
-          <span class="pill"><span class="pill-i">📍</span>Buffalo</span>
-          <span class="pill paid">Paid $220</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">60<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card coinflip">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">9:45 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">CBS</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Buffalo</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $220</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#8 MW</span></div>
+      <div class="team-name"><span class="team-seed">#8</span>Georgia</div>
+      <div class="matchup">vs <span>(9) Saint Louis</span><span class="spread fav">-2</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">60<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- KENNESAW ST -->
-<div class="game-card bigdog">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#14 West</span>
-          <span class="upset-badge">UPSET?</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#14</span>Kennesaw St.</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(3) Gonzaga</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>10:00 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TBS</span>
-          <span class="pill"><span class="pill-i">📍</span>Portland</span>
-          <span class="pill paid">Paid $180</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">7<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card bigdog">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">10:00 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TBS</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Portland</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
+    <span class="meta-paid">Paid $180</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row">
+        <span class="region-badge">#14 West</span>
+        <span class="upset-badge">Upset?</span>
       </div>
+      <div class="team-name"><span class="team-seed">#14</span>Kennesaw St.</div>
+      <div class="matchup">vs <span>(3) Gonzaga</span><span class="spread dog">+18.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">7<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
-<!-- HOFSTRA (Thu late) -->
-<div class="game-card bigdog">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#13 MW</span>
-          <span class="upset-badge">UPSET?</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#13</span>Hofstra</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(4) Alabama</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>Late Thu</span>
-          <span class="pill"><span class="pill-i">📺</span>truTV</span>
-          <span class="pill"><span class="pill-i">📍</span>Tampa</span>
-          <span class="pill paid">Paid $140</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">15<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
-    </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+<!-- ──────── FRIDAY ──────── -->
+<div class="day-header" style="margin-top:8px">
+  <div class="day-line"></div>
+  <div class="day-label">Friday · March 20</div>
+  <div class="day-line"></div>
 </div>
 
-<!-- ══════════ FRIDAY ══════════ -->
-<div class="day-divider" style="margin-top:8px">
-  <div class="day-divider-line"></div>
-  <div class="day-divider-label">Friday · March 20</div>
-  <div class="day-divider-line"></div>
+<!-- HOFSTRA -->
+<div class="card bigdog">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">3:15 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">truTV</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Tampa</span>
+    </div>
+    <span class="meta-paid">Paid $140</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row">
+        <span class="region-badge">#13 MW</span>
+        <span class="upset-badge">Upset?</span>
+      </div>
+      <div class="team-name"><span class="team-seed">#13</span>Hofstra</div>
+      <div class="matchup">vs <span>(4) Alabama</span><span class="spread dog">+11.5</span></div>
+    </div>
+    <div class="win-box">
+      <div class="win-pct">15<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
+  </div>
 </div>
 
 <!-- AKRON -->
-<div class="game-card dog">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#12 MW</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#12</span>Akron</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(5) Texas Tech</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>12:40 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>truTV</span>
-          <span class="pill"><span class="pill-i">📍</span>Tampa</span>
-          <span class="pill paid">Paid $280</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">27<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card dog">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">12:40 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">truTV</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Tampa</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $280</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#12 MW</span></div>
+      <div class="team-name"><span class="team-seed">#12</span>Akron</div>
+      <div class="matchup">vs <span>(5) Texas Tech</span><span class="spread dog">+8.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">27<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- ARIZONA -->
-<div class="game-card chalk">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#1 West</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#1</span>Arizona</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(16) Long Island</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>1:35 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TNT</span>
-          <span class="pill"><span class="pill-i">📍</span>San Diego</span>
-          <span class="pill paid">Paid $2,625</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">99<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card chalk">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">1:35 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TNT</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">San Diego</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms locked">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$340</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms breakeven">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $2,625</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#1 West</span></div>
+      <div class="team-name"><span class="team-seed">#1</span>Arizona</div>
+      <div class="matchup">vs <span>(16) Long Island</span><span class="spread fav">-30.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">99<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
+    <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">E8</div><div class="ms-v">$340</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms breakeven"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- VIRGINIA -->
-<div class="game-card chalk">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#3 MW</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#3</span>Virginia</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(14) Wright State</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>1:50 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TBS</span>
-          <span class="pill"><span class="pill-i">📍</span>Philadelphia</span>
-          <span class="pill paid">Paid $375</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">95<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card chalk">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">1:50 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TBS</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Philadelphia</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms locked">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$340</div>
-        </div>
-        <div class="ms breakeven">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $375</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#3 MW</span></div>
+      <div class="team-name"><span class="team-seed">#3</span>Virginia</div>
+      <div class="matchup">vs <span>(14) Wright State</span><span class="spread fav">-17.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">95<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
+    <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">E8</div><div class="ms-v">$340</div></div>
+    <div class="ms breakeven"><div class="ms-l">F4</div><div class="ms-v">$1,901</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- UCF -->
-<div class="game-card coinflip">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#10 East</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#10</span>UCF</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(7) UCLA</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>7:25 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TBS</span>
-          <span class="pill"><span class="pill-i">📍</span>Philadelphia</span>
-          <span class="pill paid">Paid $115</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">35<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card coinflip">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">7:25 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TBS</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Philadelphia</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $115</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#10 East</span></div>
+      <div class="team-name"><span class="team-seed">#10</span>UCF</div>
+      <div class="matchup">vs <span>(7) UCLA</span><span class="spread dog">+5.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">35<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- FLORIDA -->
-<div class="game-card chalk">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#1 South</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#1</span>Florida</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(16) Lehigh</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>9:25 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>TNT</span>
-          <span class="pill"><span class="pill-i">📍</span>Tampa</span>
-          <span class="pill paid">Paid $1,550</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">99<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card chalk">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">9:25 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">TNT</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">Tampa</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms locked">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$340</div>
-        </div>
-        <div class="ms breakeven">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $1,550</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#1 South</span></div>
+      <div class="team-name"><span class="team-seed">#1</span>Florida</div>
+      <div class="matchup">vs <span>(16) Prairie View A&M</span><span class="spread fav">-35.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">99<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
+    <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">E8</div><div class="ms-v">$340</div></div>
+    <div class="ms breakeven"><div class="ms-l">F4</div><div class="ms-v">$1,901</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
 <!-- MISSOURI -->
-<div class="game-card coinflip">
-  <div class="card-inner">
-    <div class="card-top">
-      <div class="card-left">
-        <div class="badges-row">
-          <span class="region-badge">#10 West</span>
-        </div>
-        <div class="team-name"><span class="team-name-seed">#10</span>Missouri</div>
-        <div class="matchup-line">R1 vs <span class="matchup-opp">(7) Miami (FL)</span></div>
-        <div class="pills-row">
-          <span class="pill"><span class="pill-i">🕐</span>10:10 PM</span>
-          <span class="pill"><span class="pill-i">📺</span>truTV</span>
-          <span class="pill"><span class="pill-i">📍</span>St. Louis</span>
-          <span class="pill paid">Paid $220</span>
-        </div>
-      </div>
-      <div class="card-right">
-        <div class="win-ring">
-          <div class="win-num">45<span class="win-pct-sym">%</span></div>
-        </div>
-        <div class="win-label">Chance to win Rd1</div>
-      </div>
+<div class="card coinflip">
+  <div class="card-topline"></div>
+  <div class="card-meta">
+    <div class="meta-left">
+      <span class="meta-piece time">10:10 PM</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">truTV</span>
+      <span class="meta-divider">·</span>
+      <span class="meta-piece">St. Louis</span>
     </div>
-    <div class="milestones">
-      <div class="ms-track">
-        <div class="ms breakeven">
-          <div class="ms-lbl">R1</div>
-          <div class="ms-amt">~$679</div>
-          <div class="ms-be-tag">BREAK EVEN</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Sweet 16</div>
-          <div class="ms-amt">~$625*</div>
-        </div>
-        <div class="ms locked">
-          <div class="ms-lbl">Elite 8</div>
-          <div class="ms-amt">$0</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">F4</div>
-          <div class="ms-amt">$1,901</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Finals</div>
-          <div class="ms-amt">$1,086</div>
-        </div>
-        <div class="ms active">
-          <div class="ms-lbl">Champ</div>
-          <div class="ms-amt">$2,444</div>
-        </div>
-      </div>
+    <span class="meta-paid">Paid $220</span>
+  </div>
+  <div class="card-body">
+    <div class="card-info">
+      <div class="badge-row"><span class="region-badge">#10 West</span></div>
+      <div class="team-name"><span class="team-seed">#10</span>Missouri</div>
+      <div class="matchup">vs <span>(7) Miami (FL)</span><span class="spread dog">+2.5</span></div>
     </div>
+    <div class="win-box">
+      <div class="win-pct">45<span class="win-sym">%</span></div>
+      <div class="win-lbl">Win Rd1</div>
+    </div>
+  </div>
+  <div class="milestones">
+    <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
+    <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
+    <div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
+    <div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,901</div></div>
+    <div class="ms active"><div class="ms-l">Finals</div><div class="ms-v">$1,086</div></div>
+    <div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,444</div></div>
   </div>
 </div>
 
-<!-- ══════════ LEGEND ══════════ -->
+<!-- LEGEND -->
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Heavy Favorite</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Coin Flip</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Underdog</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Big Dog</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#a855f7"></div>Both teams owned</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#2563eb"></div>Heavy Fav</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#059669"></div>Coin Flip</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#d97706"></div>Underdog</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#dc2626"></div>Big Dog</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#7c3aed"></div>Own Both</div>
 </div>
 
 <div class="footer">
-  Win% = Vegas implied probability from opening lines &nbsp;·&nbsp; Prize amounts confirmed from Calcutta spreadsheet<br>
-  *Sweet 16 pot ($6,247) splits equally among all #4–16 seeds that advance &nbsp;·&nbsp; Elite 8 pot = #1–3 seeds only
+  Win% = Vegas implied probability · Prizes confirmed from Calcutta spreadsheet<br>
+  *S16 pot splits among all #4–16 seeds that advance · E8 pot = #1–3 seeds only
 </div>
 
 </body>
