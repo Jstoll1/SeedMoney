@@ -507,6 +507,26 @@ body {
 .sc-note-body  { font-size: 10.5px; font-weight: 500; color: #8b7ab8; line-height: 1.5; }
 .sc-empty { text-align: center; padding: 22px 16px; color: #2d3e58; font-size: 11px; font-weight: 600; line-height: 1.6; }
 
+/* ═══════════════════════════════
+   LIVE SCORE BAR
+═══════════════════════════════ */
+.live-bar {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba(0,0,0,0.35);
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.lb-name  { font-size: 10px; font-weight: 800; color: #5a7099; letter-spacing: 0.4px; }
+.lb-score { font-size: 14px; font-weight: 900; color: #f0f4ff; min-width: 20px; text-align: center; }
+.lb-sep   { font-size: 10px; color: #1e2e44; }
+.lb-status { margin-left: 4px; font-size: 9px; font-weight: 800; letter-spacing: 0.6px; }
+.lb-live  { color: #ef4444; }
+.lb-live::before { content: '● '; }
+.lb-final { color: #3d5070; }
+
 </style>
 </head>
 <body>
@@ -543,7 +563,7 @@ body {
 </div>
 
 <!-- N. DAKOTA ST -->
-<div class="card bigdog">
+<div class="card bigdog" data-tid="ndsu">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -569,6 +589,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -580,7 +601,7 @@ body {
 </div>
 
 <!-- MICHIGAN ST -->
-<div class="card chalk">
+<div class="card chalk" data-tid="msu">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -603,6 +624,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
     <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
@@ -614,7 +636,7 @@ body {
 </div>
 
 <!-- VCU -->
-<div class="card coinflip">
+<div class="card coinflip" data-tid="vcu">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -637,6 +659,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -648,7 +671,7 @@ body {
 </div>
 
 <!-- GEORGIA -->
-<div class="card coinflip">
+<div class="card coinflip" data-tid="georgia">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -671,6 +694,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -682,7 +706,7 @@ body {
 </div>
 
 <!-- KENNESAW ST -->
-<div class="card bigdog">
+<div class="card bigdog" data-tid="kennesaw">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -708,6 +732,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -728,7 +753,7 @@ body {
 </div>
 
 <!-- HOFSTRA -->
-<div class="card bigdog">
+<div class="card bigdog" data-tid="hofstra">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -754,6 +779,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -765,7 +791,7 @@ body {
 </div>
 
 <!-- AKRON -->
-<div class="card dog">
+<div class="card dog" data-tid="akron">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -788,6 +814,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -799,7 +826,7 @@ body {
 </div>
 
 <!-- ARIZONA -->
-<div class="card chalk">
+<div class="card chalk" data-tid="arizona">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -822,6 +849,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
     <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
@@ -833,7 +861,7 @@ body {
 </div>
 
 <!-- VIRGINIA -->
-<div class="card chalk">
+<div class="card chalk" data-tid="virginia">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -856,6 +884,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
     <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
@@ -867,7 +896,7 @@ body {
 </div>
 
 <!-- UCF -->
-<div class="card coinflip">
+<div class="card coinflip" data-tid="ucf">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -890,6 +919,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -901,7 +931,7 @@ body {
 </div>
 
 <!-- FLORIDA -->
-<div class="card chalk">
+<div class="card chalk" data-tid="florida">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -924,6 +954,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
     <div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
@@ -935,7 +966,7 @@ body {
 </div>
 
 <!-- MISSOURI -->
-<div class="card coinflip">
+<div class="card coinflip" data-tid="missouri">
   <div class="card-topline"></div>
   <div class="card-meta">
     <div class="meta-left">
@@ -958,6 +989,7 @@ body {
       <div class="win-lbl">Win Rd1</div>
     </div>
   </div>
+  <div class="live-bar"></div>
   <div class="milestones">
     <div class="ms breakeven"><div class="ms-l">R1</div><div class="ms-v">~$679</div><div class="ms-be">Even</div></div>
     <div class="ms active"><div class="ms-l">S16</div><div class="ms-v">~$625</div></div>
@@ -1026,6 +1058,94 @@ body {
 
 
 <script>
+/* ══════════════════════════════════════════════
+   LIVE SCORING — ESPN public scoreboard API
+   No key required. Runs client-side only.
+   Refreshes every 45 seconds automatically.
+══════════════════════════════════════════════ */
+
+var LIVE_MATCH = {
+  ndsu:     function(n) { return n.includes('north dakota state') || n === 'ndsu'; },
+  msu:      function(n) { return n === 'michigan state' || n.includes('michigan state'); },
+  vcu:      function(n) { return n === 'vcu' || n.includes('virginia commonwealth'); },
+  georgia:  function(n) { return n === 'georgia'; },
+  kennesaw: function(n) { return n.includes('kennesaw'); },
+  hofstra:  function(n) { return n === 'hofstra'; },
+  akron:    function(n) { return n === 'akron'; },
+  arizona:  function(n) { return n === 'arizona'; },
+  virginia: function(n) { return n === 'virginia'; },
+  ucf:      function(n) { return n.includes('central florida') || n === 'ucf'; },
+  florida:  function(n) { return n === 'florida'; },
+  missouri: function(n) { return n === 'missouri'; }
+};
+
+function processLiveEvents(events) {
+  events.forEach(function(ev) {
+    var comp = ev.competitions && ev.competitions[0];
+    if (!comp) return;
+    var comps = comp.competitors;
+
+    Object.keys(LIVE_MATCH).forEach(function(tid) {
+      var hit = comps.some(function(c) {
+        return LIVE_MATCH[tid]((c.team.displayName || '').toLowerCase());
+      });
+      if (!hit) return;
+
+      var card = document.querySelector('[data-tid="' + tid + '"]');
+      if (!card) return;
+      var bar = card.querySelector('.live-bar');
+      if (!bar) return;
+
+      var statusType = ev.status.type.name;
+      if (statusType === 'STATUS_SCHEDULED') return; /* hide until tip */
+
+      var c1 = comps[0], c2 = comps[1];
+      var sc1 = parseInt(c1.score) || 0;
+      var sc2 = parseInt(c2.score) || 0;
+      var n1  = (c1.team.abbreviation || c1.team.shortDisplayName || '??').toUpperCase();
+      var n2  = (c2.team.abbreviation || c2.team.shortDisplayName || '??').toUpperCase();
+
+      var stStr, stCls;
+      if (statusType === 'STATUS_FINAL' || statusType === 'STATUS_FINAL_OT') {
+        stStr = 'FINAL'; stCls = 'lb-final';
+      } else if (statusType === 'STATUS_HALFTIME') {
+        stStr = 'HALF'; stCls = 'lb-live';
+      } else {
+        var p   = ev.status.period || 1;
+        var clk = ev.status.displayClock || '';
+        stStr = (p <= 2 ? 'H' + p : 'OT' + (p - 2)) + (clk ? ' ' + clk : '');
+        stCls = 'lb-live';
+      }
+
+      bar.style.display = 'flex';
+      bar.innerHTML =
+        '<span class="lb-name">'   + n1   + '</span>' +
+        '<span class="lb-score">'  + sc1  + '</span>' +
+        '<span class="lb-sep">–</span>' +
+        '<span class="lb-score">'  + sc2  + '</span>' +
+        '<span class="lb-name">'   + n2   + '</span>' +
+        '<span class="lb-status '  + stCls + '">' + stStr + '</span>';
+    });
+  });
+}
+
+function fetchScores() {
+  ['20260319', '20260320'].forEach(function(d) {
+    fetch(
+      'https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=' + d,
+      { cache: 'no-store' }
+    )
+    .then(function(r) { return r.json(); })
+    .then(function(data) { if (data.events) processLiveEvents(data.events); })
+    .catch(function() { /* silently fail — offline or CORS issue */ });
+  });
+}
+
+fetchScores();
+setInterval(fetchScores, 45000);
+
+/* ══════════════════════════════════════════════ */
+
 var scRound = 'F4';
 
 var SC_T = {
