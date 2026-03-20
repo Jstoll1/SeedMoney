@@ -250,57 +250,58 @@ gap:5px;
 .sc-note-b { font-size:9.5px; font-weight:500; color:#7a6aaa; line-height:1.5; }
 .sc-empty { text-align:center; padding:18px 14px; color:#2d3e58; font-size:10.5px; font-weight:600; line-height:1.6; }
 
-/* ── PULSE BOX (witty update) ── */
-.pulse-box {
+/* ── INTEL BOX ── */
+.intel-box {
 background: #070d1a;
 border: 1px solid rgba(255,255,255,0.07);
 border-radius: 11px;
-padding: 10px 13px;
+overflow: hidden;
 margin-bottom: 10px;
+}
+.intel-accent { height: 2px; background: linear-gradient(90deg, #ef4444, #f0b429, #10b981); }
+.intel-head {
+display: flex;
+align-items: baseline;
+justify-content: space-between;
+padding: 8px 13px 6px;
+border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.intel-down-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #3d5070; }
+.intel-down-amt   { font-size: 20px; font-weight: 900; color: #ef4444; letter-spacing: -0.8px; line-height: 1; }
+.intel-down-sub   { font-size: 9px; font-weight: 600; color: #2d3e58; }
+
+.intel-rows { display: flex; flex-direction: column; }
+
+.intel-row {
 display: flex;
 align-items: flex-start;
-gap: 10px;
-position: relative;
-overflow: hidden;
+gap: 9px;
+padding: 7px 13px;
+border-bottom: 1px solid rgba(255,255,255,0.03);
 }
-.pulse-box::before {
-content: ‘’;
-position: absolute;
-left: 0; top: 0; bottom: 0;
-width: 3px;
-background: linear-gradient(180deg, #f0b429, #db2777);
+.intel-row:last-child { border-bottom: none; }
+.intel-row-icon { font-size: 11px; flex-shrink: 0; padding-top: 1px; line-height: 1; }
+.intel-row-body { flex: 1; min-width: 0; }
+.intel-row-label {
+font-size: 8px;
+font-weight: 800;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: #2d3e58;
+margin-bottom: 3px;
 }
-.pulse-icon { font-size: 16px; flex-shrink: 0; padding-top: 1px; }
-.pulse-content { flex: 1; min-width: 0; }
-.pulse-quip {
-font-size: 11.5px;
-font-weight: 700;
-color: #c8d8f0;
-line-height: 1.45;
-margin-bottom: 5px;
+.intel-row-text {
+font-size: 11px;
+font-weight: 600;
+color: #7a90b0;
+line-height: 1.5;
 }
-.pulse-stats {
-display: flex;
-align-items: center;
-gap: 10px;
-flex-wrap: wrap;
-}
-.ps-item { font-size: 9.5px; font-weight: 600; color: #3d5070; }
-.ps-item strong { font-weight: 800; }
-.ps-item.green strong { color: #10b981; }
-.ps-item.red   strong { color: #ef4444; }
-.ps-item.gold  strong { color: #f0b429; }
-.ps-sep { color: #1a2535; font-size: 9px; }
-.pulse-tag {
-margin-top: 6px;
-font-size: 9.5px;
-font-weight: 700;
-color: #5a4080;
-font-style: italic;
-line-height: 1.4;
-}
-.pulse-tag.watching { color: #c99a20; font-style: normal; }
-.pulse-tag.watching::before { content: ’👀 ’; }
+.intel-row-text strong { font-weight: 800; }
+.intel-row-text .hi-green  { color: #10b981; font-weight: 800; }
+.intel-row-text .hi-gold   { color: #f0b429; font-weight: 800; }
+.intel-row-text .hi-red    { color: #ef4444; font-weight: 800; }
+.intel-row-text .hi-blue   { color: #60a0f0; font-weight: 800; }
+.intel-row-text .hi-purple { color: #c4b5fd; font-weight: 800; }
 
 /* ── FEEDBACK BOX ── */
 .feedback-wrap {
@@ -403,14 +404,34 @@ flex-shrink: 0;
   <div class="stat"><div class="stat-n" style="color:#f0b429" id="stat-live">6</div><div class="stat-l">Pending</div></div>
 </div>
 
-<!-- PULSE BOX -->
+<!-- INTEL BOX -->
 
-<div class="pulse-box" id="pulse-box">
-  <div class="pulse-icon" id="pulse-icon">📡</div>
-  <div class="pulse-content">
-    <div class="pulse-quip" id="pulse-quip">Loading your update...</div>
-    <div class="pulse-stats" id="pulse-stats"></div>
-    <div class="pulse-tag" id="pulse-tag"></div>
+<div class="intel-box" id="intel-box">
+  <div class="intel-accent"></div>
+  <div class="intel-head">
+    <div>
+      <div class="intel-down-label">Currently Down</div>
+      <div class="intel-down-amt" id="intel-down">$5,771</div>
+    </div>
+    <div style="text-align:right">
+      <div class="intel-down-sub" id="intel-invested">$6,450 in · ~$679 back</div>
+    </div>
+  </div>
+  <div class="intel-rows">
+    <div class="intel-row">
+      <div class="intel-row-icon">🎯</div>
+      <div class="intel-row-body">
+        <div class="intel-row-label">Tonight's target</div>
+        <div class="intel-row-text" id="intel-tonight">Loading...</div>
+      </div>
+    </div>
+    <div class="intel-row">
+      <div class="intel-row-icon">🏆</div>
+      <div class="intel-row-body">
+        <div class="intel-row-label">Best path to max profit</div>
+        <div class="intel-row-text" id="intel-bestpath">Loading...</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1232,172 +1253,202 @@ fetchScores();
 setInterval(fetchScores, 45000);
 
 /* ══════════════════════════════════════════
-   PULSE BOX — witty update + live context
+   INTEL BOX — financial status dashboard
 ══════════════════════════════════════════ */
 
-/* State tracking for pulse box — updated by score engine */
-var PULSE_STATE = {
-  liveGames:  [],   /* tids currently in progress */
-  upcomingGames: [], /* tids not yet tipped */
-  wonToday:   [],
-  lostToday:  []
+/*
+  PAYOUT STRUCTURE (per Calcutta rules):
+  R1 pot  ~$679 split among all #4–16 seeds that win R1
+  S16 pot ~$625 split similarly
+  E8      $340  (seeds #1–3 only)
+  F4      $1,901 per team
+  Finals  $1,086 per team
+  Champ   $2,444
+
+  TEAM DATA
+  top3 = true → no R1/S16 payout (Arizona, Virginia, Florida, MSU)
+*/
+var INTEL = {
+  /* all 9 surviving teams */
+  teams: {
+    msu:      { name:'Michigan St.', paid:475,  top3:true,  alive:true,  r1won:true  },
+    vcu:      { name:'VCU',          paid:170,  top3:false, alive:true,  r1won:true  },
+    akron:    { name:'Akron',        paid:280,  top3:false, alive:true,  r1won:false },
+    arizona:  { name:'Arizona',      paid:2625, top3:true,  alive:true,  r1won:false },
+    virginia: { name:'Virginia',     paid:375,  top3:true,  alive:true,  r1won:false },
+    hofstra:  { name:'Hofstra',      paid:140,  top3:false, alive:true,  r1won:false },
+    ucf:      { name:'UCF',          paid:115,  top3:false, alive:true,  r1won:false },
+    florida:  { name:'Florida',      paid:1550, top3:true,  alive:true,  r1won:false },
+    missouri: { name:'Missouri',     paid:220,  top3:false, alive:true,  r1won:false }
+  },
+  totalIn:   6450,
+  confirmed: 679,   /* VCU R1 win already earned */
+
+  /* dynamic — updated as scores come in */
+  fridayWon:  [],   /* tids that won tonight */
+  fridayLost: [],   /* tids that lost tonight */
+  fridayLive: [],
+  fridayLeft: ['akron','arizona','virginia','hofstra','ucf','florida','missouri']
 };
 
-/* Called by processEvents after each fetch */
-function updatePulseState(tid, stType) {
-  /* remove from all buckets first */
-  ['liveGames','upcomingGames','wonToday','lostToday'].forEach(function(k){
-    var idx = PULSE_STATE[k].indexOf(tid);
-    if (idx > -1) PULSE_STATE[k].splice(idx,1);
-  });
-  if      (stType === 'live')      PULSE_STATE.liveGames.push(tid);
-  else if (stType === 'scheduled') PULSE_STATE.upcomingGames.push(tid);
-  else if (stType === 'won')       PULSE_STATE.wonToday.push(tid);
-  else if (stType === 'lost')      PULSE_STATE.lostToday.push(tid);
+/* payout for a team reaching a given round */
+function roundPayout(tid, round) {
+  var t = INTEL.teams[tid];
+  if (!t) return 0;
+  var map = t.top3
+    ? { r1:0, s16:0, e8:340, f4:1901, finals:1086, champ:2444 }
+    : { r1:679, s16:625, e8:0, f4:1901, finals:1086, champ:2444 };
+  return map[round] || 0;
 }
 
-var TEAM_NAMES = {
-  akron:'Akron', arizona:'Arizona', virginia:'Virginia',
-  hofstra:'Hofstra', ucf:'UCF', florida:'Florida', missouri:'Missouri',
-  msu:'Michigan St.', vcu:'VCU'
-};
+/* cumulative payout for a team reaching a given round */
+function cumulativePayout(tid, round) {
+  var order = ['r1','s16','e8','f4','finals','champ'];
+  var idx   = order.indexOf(round);
+  if (idx < 0) return 0;
+  var total = 0;
+  for (var i = 0; i <= idx; i++) total += roundPayout(tid, order[i]);
+  return total;
+}
 
-/* Witty quip pools keyed by situation */
-var QUIPS = {
-  live: [
-    "Games are live and your palms should be sweaty.",
-    "Somewhere right now a ref is about to ruin your evening.",
-    "The clock is running. So is your blood pressure.",
-    "Real money on the line. No pressure.",
-    "Curt is definitely watching. Probably pacing."
-  ],
-  winning: [
-    "VCU delivered a miracle. Drink it in.",
-    "The bracket gods smiled. Don't get cocky.",
-    "Green on the board. Feels different doesn't it.",
-    "Money doesn't sleep, but your teams might.",
-    "You're up. The tournament has noted your smugness."
-  ],
-  losing: [
-    "Georgia got cooked. It happens to the best of us.",
-    "Three teams gone. The bracket is cruel and unyielding.",
-    "The Calcutta is a long game. Still 9 teams alive.",
-    "Losses hurt. Arizona better show up.",
-    "Down $500. Up in character."
-  ],
-  neutral: [
-    "Your bracket is alive. Mostly.",
-    "No games live right now. Breathe.",
-    "The tournament waits for no one. Check back soon.",
-    "Nothing live — good time to hydrate and stress-eat.",
-    "All quiet on the court. Suspiciously quiet."
-  ],
-  bigWatch: [
-    "Arizona is your biggest bet. Watch it like it owes you money.",
-    "$2,625 says Arizona wins. That's not a bet, that's a statement.",
-    "Florida + Arizona = $4,175 invested. No pressure at all.",
-    "Your top spend is on the court. Eyes up."
-  ]
-};
+/* net return for a team if they reach a round */
+function netReturn(tid, round) {
+  return cumulativePayout(tid, round) - INTEL.teams[tid].paid;
+}
 
-function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function renderIntelBox() {
+  var t        = INTEL.teams;
+  var totalIn  = INTEL.totalIn;
+  var earned   = INTEL.confirmed;
 
-function renderPulseBox() {
-  var live     = PULSE_STATE.liveGames;
-  var upcoming = PULSE_STATE.upcomingGames;
-  var won      = PULSE_STATE.wonToday;
-  var lost     = PULSE_STATE.lostToday;
+  /* add any confirmed friday wins */
+  INTEL.fridayWon.forEach(function(tid) {
+    if (!t[tid]) return;
+    var add = t[tid].top3 ? 0 : 679;
+    earned += add; /* approximate */
+  });
 
-  /* confirmed earnings so far */
-  var confirmed = 679; /* VCU R1 */
-  var spent     = 6450;
-  var netStr    = '−$' + (spent - confirmed).toLocaleString();
+  var currentDown = totalIn - earned;
+  document.getElementById('intel-down').textContent    = '$' + currentDown.toLocaleString();
+  document.getElementById('intel-invested').textContent = '$' + totalIn.toLocaleString() + ' in · ~$' + earned.toLocaleString() + ' back';
 
-  /* pick quip */
-  var quip, icon, tag, tagClass = '';
-  if (live.length > 0) {
-    quip = pickRandom(QUIPS.live);
-    icon = '⚡';
-    var liveNames = live.map(function(t){ return TEAM_NAMES[t]||t; }).join(', ');
-    tag  = 'Watching now: ' + liveNames;
-    tagClass = 'watching';
-  } else if (upcoming.length > 0) {
-    /* check if a big-money team is next */
-    var bigNext = upcoming.filter(function(t){ return ['arizona','florida'].indexOf(t) > -1; });
-    if (bigNext.length > 0) {
-      quip = pickRandom(QUIPS.bigWatch);
-      icon = '💰';
+  /* ── TONIGHT'S TARGET ── */
+  /* Which Fri teams are still pending or live */
+  var pending  = INTEL.fridayLeft.filter(function(tid){ return INTEL.fridayLost.indexOf(tid) < 0 && INTEL.fridayWon.indexOf(tid) < 0; });
+  var liveNow  = INTEL.fridayLive;
+
+  /* calculate what a full-sweep of pending low seeds (non-top3) would add */
+  var pendingLow  = pending.filter(function(tid){ return !t[tid].top3; });
+  var pendingHigh = pending.filter(function(tid){ return t[tid].top3; });
+
+  var sweepEarnings = pendingLow.length * 679; /* R1 payout each */
+  var sweepNet      = earned + sweepEarnings - totalIn;
+  var sweepDown     = totalIn - (earned + sweepEarnings);
+
+  var tonightHTML = '';
+
+  if (liveNow.length > 0 || pending.length > 0) {
+    var winNames = pendingLow.map(function(tid){ return '<span class="hi-gold">' + t[tid].name + '</span>'; });
+    var highNames = pendingHigh.map(function(tid){ return '<span class="hi-blue">' + t[tid].name + '</span>'; });
+    var allNames  = winNames.concat(highNames);
+
+    if (pendingLow.length > 0) {
+      tonightHTML  = allNames.join(', ') + ' all win R1 tonight → ';
+      tonightHTML += '<span class="hi-green">+$' + sweepEarnings.toLocaleString() + ' collected</span>';
+      tonightHTML += ', still down <span class="hi-red">$' + Math.max(0, sweepDown).toLocaleString() + '</span>';
+    } else if (pendingHigh.length > 0) {
+      /* only top-3 seeds left — no R1 payout */
+      tonightHTML = allNames.join(', ') + ' advance but collect <span class="hi-gold">$0 at R1</span> — payout starts at E8. Down stays <span class="hi-red">$' + currentDown.toLocaleString() + '</span> until next weekend.';
     } else {
-      quip = pickRandom(won.length > lost.length ? QUIPS.winning : QUIPS.neutral);
-      icon = won.length > lost.length ? '✅' : '🕐';
+      tonightHTML = 'All Friday games resolved — check results below.';
     }
-    /* next up label */
-    var nextTid    = upcoming[0];
-    var nextLabel  = { akron:'12:40 PM', arizona:'1:35 PM', virginia:'1:50 PM', hofstra:'3:15 PM', ucf:'7:25 PM', florida:'9:25 PM', missouri:'10:10 PM' }[nextTid] || '';
-    tag = 'Next up: ' + (TEAM_NAMES[nextTid]||nextTid) + (nextLabel ? ' · ' + nextLabel : '');
-    tagClass = 'watching';
-  } else if (won.length > 0 && live.length === 0) {
-    quip = pickRandom(QUIPS.winning);
-    icon = '🏆';
-    tag  = 'All Fri games complete — check results below';
-    tagClass = '';
+
+    /* add already-won note if any */
+    if (INTEL.fridayWon.length > 0) {
+      var wonNames = INTEL.fridayWon.map(function(tid){ return t[tid] ? t[tid].name : tid; }).join(', ');
+      tonightHTML = '<span class="hi-green">' + wonNames + ' already through.</span> ' + tonightHTML;
+    }
   } else {
-    quip = pickRandom(lost.length >= 3 ? QUIPS.losing : QUIPS.neutral);
-    icon = '📡';
-    tag  = 'Thursday is done · Friday games underway';
-    tagClass = '';
+    tonightHTML = 'All Friday games complete — check results below.';
   }
 
-  document.getElementById('pulse-icon').textContent = icon;
-  document.getElementById('pulse-quip').textContent = quip;
-  document.getElementById('pulse-tag').textContent  = tag;
-  document.getElementById('pulse-tag').className    = 'pulse-tag' + (tagClass ? ' ' + tagClass : '');
+  document.getElementById('intel-tonight').innerHTML = tonightHTML;
 
-  /* stats row */
-  var statsHTML =
-    '<span class="ps-item green">Earned: <strong>~$679</strong></span>' +
-    '<span class="ps-sep">·</span>' +
-    '<span class="ps-item red">Lost: <strong>$500</strong></span>' +
-    '<span class="ps-sep">·</span>' +
-    '<span class="ps-item gold">Net: <strong>' + netStr + '</strong></span>';
-  document.getElementById('pulse-stats').innerHTML = statsHTML;
+  /* ── BEST PATH TO MAX PROFIT ── */
+  /*
+    Max realistic F4 scenario: our 4 highest-value teams reach F4
+    Each F4 = $1,901. Then model the finals + champ upside.
+    Best 4 by cumulative F4 value = Arizona, Florida, Virginia, MSU
+    (all top3 seeds with highest paid amounts)
+    F4 payouts: 4 × $1,901 = $7,604
+    Plus cumulative prior: MSU(E8 $340), Arizona(E8 $340), Virginia(E8 $340), Florida(E8 $340) = $1,360
+    But also VCU R1 already = $679
+    Total collected = $679 + $1,360 + $7,604 = $9,643
+    Net = $9,643 - $6,450 = +$3,193
+    If one of them wins champ: add $2,444 + $1,086 = $3,530 more
+    Grand total = $13,173 - $6,450 = +$6,723 profit
+  */
+  var f4Teams    = ['arizona','florida','virginia','msu'];
+  var f4Names    = f4Teams.map(function(tid){ return '<span class="hi-purple">' + t[tid].name + '</span>'; });
+  var f4Collect  = 0;
+  f4Teams.forEach(function(tid){ f4Collect += cumulativePayout(tid, 'f4'); });
+  f4Collect += 679; /* VCU R1 already earned */
+
+  /* also add any low seeds that win tonight */
+  var lowR1Winners = INTEL.fridayWon.filter(function(tid){ return !t[tid].top3; });
+  lowR1Winners.forEach(function(){ f4Collect += 679; });
+
+  var f4Net     = f4Collect - totalIn;
+  var champNet  = f4Net + 2444 + 1086; /* if one of them wins it all */
+
+  var bestHTML =
+    f4Names.join(', ') + ' all reach F4 → collect <span class="hi-green">$' + f4Collect.toLocaleString() + '</span>, ' +
+    '<span class="hi-green">+$' + f4Net.toLocaleString() + ' profit</span>. ' +
+    'One wins the title → <span class="hi-gold">+$' + champNet.toLocaleString() + ' total profit</span>.';
+
+  document.getElementById('intel-bestpath').innerHTML = bestHTML;
 }
 
-/* Hook into processEvents — call updatePulseState for each team */
+/* ── Hook into score engine ── */
 var _origProcess = processEvents;
 processEvents = function(events) {
   _origProcess(events);
 
   events.forEach(function(ev) {
-    var comp = ev.competitions && ev.competitions[0];
+    var comp  = ev.competitions && ev.competitions[0];
     if (!comp) return;
     var comps = comp.competitors;
     Object.keys(FRI_TEAMS).forEach(function(tid) {
       var myC = comps.find(function(c){ return FRI_TEAMS[tid]((c.team.displayName||'').toLowerCase()); });
       if (!myC) return;
       var st = getGameStatus(ev);
+
+      /* keep intel lists clean */
+      ['fridayWon','fridayLost','fridayLive','fridayLeft'].forEach(function(k){
+        var idx = INTEL[k].indexOf(tid);
+        if (idx > -1) INTEL[k].splice(idx,1);
+      });
+
       if (st.type === 'final') {
         var oppC = comps.find(function(c){ return c !== myC; });
         var myS  = parseInt(myC.score||'0')||0;
         var opS  = parseInt(oppC ? oppC.score : '0')||0;
-        updatePulseState(tid, myS > opS ? 'won' : 'lost');
+        if (myS > opS) INTEL.fridayWon.push(tid);
+        else           INTEL.fridayLost.push(tid);
+      } else if (st.type === 'live') {
+        INTEL.fridayLive.push(tid);
+        INTEL.fridayLeft.push(tid);
       } else {
-        updatePulseState(tid, st.type);
+        INTEL.fridayLeft.push(tid);
       }
     });
   });
 
-  renderPulseBox();
+  renderIntelBox();
 };
 
-/* Seed upcoming list on load (before first fetch resolves) */
-(function() {
-  PULSE_STATE.upcomingGames = ['akron','arizona','virginia','hofstra','ucf','florida','missouri'];
-  /* Thursday results already known */
-  PULSE_STATE.wonToday  = ['msu','vcu'];
-  PULSE_STATE.lostToday = ['ndsu','georgia','kennesaw'];
-  renderPulseBox();
-})();
+/* Initial render on load */
+renderIntelBox();
 
 /* ══════════════════════════════════════════
    FEEDBACK → email via mailto fallback
