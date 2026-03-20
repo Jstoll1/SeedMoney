@@ -55,9 +55,11 @@ background:#070d1a;
 .card.bigdog   { –c:#dc2626; –cg:rgba(220,38,38,0.1); }
 /* state overrides */
 .card.s-won  { border-color:rgba(16,185,129,0.2);  –c:#10b981; –cg:rgba(16,185,129,0.08); }
-.card.s-loss { border-color:rgba(255,255,255,0.015); opacity:0.52; –c:#1e2e44; –cg:rgba(0,0,0,0); }
+.card.s-loss { border-color:rgba(255,255,255,0.015); opacity:0.52; –c:#1e2e44; –cg:rgba(0,0,0,0); margin-bottom:3px; }
 .card.s-live { border-color:rgba(240,180,41,0.32); –c:#f0b429; –cg:rgba(240,180,41,0.1); animation:liveBorder 3s ease-in-out infinite; }
 .card.s-soon { /* keep original theme token */ }
+/* tighten gap between consecutive loss cards */
+.card.s-loss + .card.s-loss { margin-top:-2px; }
 @keyframes liveBorder { 0%,100%{border-color:rgba(240,180,41,0.32)} 50%{border-color:rgba(240,180,41,0.58)} }
 
 .card-topline { height:2px; background:var(–c); opacity:0.65; }
@@ -122,10 +124,10 @@ justify-content:space-between;
 padding:5px 12px 7px;
 gap:8px;
 }
-.rs-paid  { font-size:9.5px; font-weight:600; color:#2d3e58; }
+.rs-paid  { font-size:9.5px; font-weight:600; color:#2d3e58; white-space:nowrap; }
 .rs-paid span { color:#5a7099; font-weight:800; }
 .rs-money {
-font-size:11px;
+font-size:10.5px;
 font-weight:900;
 padding:2px 9px;
 border-radius:4px;
@@ -133,7 +135,37 @@ white-space:nowrap;
 }
 .rs-money.won  { background:rgba(16,185,129,0.12); color:#10b981; border:1px solid rgba(16,185,129,0.22); }
 .rs-money.lost { background:rgba(239,68,68,0.08);  color:#ef4444; border:1px solid rgba(239,68,68,0.16); }
-.rs-money.next { background:rgba(240,180,41,0.08); color:#c99a20; border:1px solid rgba(240,180,41,0.16); font-size:9.5px; }
+.rs-money.next { background:rgba(240,180,41,0.08); color:#c99a20; border:1px solid rgba(240,180,41,0.16); }
+
+/* two-part info strip for active (scheduled/live) cards */
+.rs-info {
+display:flex;
+align-items:center;
+gap:0;
+flex:1;
+justify-content:flex-end;
+min-width:0;
+}
+.rs-chunk {
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:3px 9px;
+border-radius:4px;
+text-align:center;
+min-width:0;
+}
+.rs-chunk.next-chunk { background:rgba(240,180,41,0.08); border:1px solid rgba(240,180,41,0.18); border-right:none; border-radius:4px 0 0 4px; }
+.rs-chunk.be-chunk   { background:rgba(37,99,235,0.07);  border:1px solid rgba(37,99,235,0.18);  border-radius:0 4px 4px 0; }
+.rs-chunk.profit-chunk { background:rgba(16,185,129,0.09); border:1px solid rgba(16,185,129,0.2); border-right:none; border-radius:4px 0 0 4px; }
+.rsc-label { font-size:7.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.7px; opacity:0.55; margin-bottom:1px; }
+.rs-chunk.next-chunk   .rsc-label { color:#c99a20; }
+.rs-chunk.be-chunk     .rsc-label { color:#3b82f6; }
+.rs-chunk.profit-chunk .rsc-label { color:#10b981; }
+.rsc-val { font-size:10px; font-weight:900; white-space:nowrap; }
+.rs-chunk.next-chunk   .rsc-val { color:#f0b429; }
+.rs-chunk.be-chunk     .rsc-val { color:#3b82f6; }
+.rs-chunk.profit-chunk .rsc-val { color:#10b981; }
 
 /* ── META LINE (time/channel) ── */
 .card-meta {
@@ -392,6 +424,7 @@ flex-shrink: 0;
 
 <!-- 1. Thu 4:05 PM — NDSU (LOSS) -->
 
+<div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#2d1a1a;margin:4px 2px 3px;">Eliminated Thu</div>
 <div class="card bigdog s-loss" data-tid="ndsu">
   <div class="card-topline"></div>
   <div class="card-top">
@@ -438,7 +471,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$475</span></div>
-    <div class="rs-money next">Next: E8 $340</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">E8 · $340</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">F4</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Thu 4:05 PM</span><span class="cm-sep">·</span>
@@ -474,7 +510,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$170</span></div>
-    <div class="rs-money won">+~$679 earned</div>
+    <div class="rs-info">
+      <div class="rs-chunk profit-chunk"><div class="rsc-label">Net so far</div><div class="rsc-val">+~$509</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">S16 ~$625</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Thu 6:50 PM</span><span class="cm-sep">·</span>
@@ -492,6 +531,7 @@ flex-shrink: 0;
 
 <!-- 4. Thu 9:45 PM — GEORGIA (LOSS) -->
 
+<div style="font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#2d1a1a;margin:4px 2px 3px;">Also Out</div>
 <div class="card coinflip s-loss" data-tid="georgia">
   <div class="card-topline"></div>
   <div class="card-top">
@@ -574,7 +614,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$280</span></div>
-    <div class="rs-money next">R1 win = ~$679 (break even)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">R1 · ~$679</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">R1 win</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 12:40 PM</span><span class="cm-sep">·</span>
@@ -611,7 +654,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$2,625</span></div>
-    <div class="rs-money next">Break even at Final ($1,086)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">E8 · $340</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">Finals</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 1:35 PM</span><span class="cm-sep">·</span>
@@ -648,7 +694,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$375</span></div>
-    <div class="rs-money next">Break even at F4 ($1,901)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">E8 · $340</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">F4</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 1:50 PM</span><span class="cm-sep">·</span>
@@ -685,7 +734,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$140</span></div>
-    <div class="rs-money next">R1 win = ~$679 (break even)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">R1 · ~$679</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">R1 win</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 3:15 PM</span><span class="cm-sep">·</span>
@@ -722,7 +774,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$115</span></div>
-    <div class="rs-money next">R1 win = ~$679 (break even)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">R1 · ~$679</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">R1 win</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 7:25 PM</span><span class="cm-sep">·</span>
@@ -759,7 +814,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$1,550</span></div>
-    <div class="rs-money next">Break even at F4 ($1,901)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">E8 · $340</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">F4</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 9:25 PM</span><span class="cm-sep">·</span>
@@ -796,7 +854,10 @@ flex-shrink: 0;
   </div>
   <div class="result-strip">
     <div class="rs-paid">Paid <span>$220</span></div>
-    <div class="rs-money next">R1 win = ~$679 (break even)</div>
+    <div class="rs-info">
+      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">R1 · ~$679</div></div>
+      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">R1 win</div></div>
+    </div>
   </div>
   <div class="card-meta">
     <span class="cm-time">Fri 10:10 PM</span><span class="cm-sep">·</span>
@@ -1101,23 +1162,26 @@ function applyGameUpdate(tid, c1, c2, st) {
       rbox.innerHTML = '<div class="rbox-score">' + myScore + '–' + oppScore + '</div><div class="rbox-sub">' + (won ? 'Won' : 'Lost') + '</div>';
     }
 
-    /* update result strip money badge */
-    var rsMoneyEl = card.querySelector('.rs-money');
-    if (rsMoneyEl) {
-      if (won) {
-        /* figure out payout — top3 seeds get nothing at R1 */
-        var top3 = ['arizona','virginia','florida'].includes(tid);
-        if (top3) {
-          rsMoneyEl.textContent = 'Advancing to R2';
-          rsMoneyEl.className   = 'rs-money next';
-        } else {
-          rsMoneyEl.textContent = '+~$679 earned';
-          rsMoneyEl.className   = 'rs-money won';
-        }
-      } else {
-        var paid = { akron:280, arizona:2625, virginia:375, hofstra:140, ucf:115, florida:1550, missouri:220 }[tid] || 0;
-        rsMoneyEl.textContent = '−$' + paid + ' lost';
-        rsMoneyEl.className   = 'rs-money lost';
+    /* update result strip with consistent two-part format */
+    var rsInfoEl = card.querySelector('.rs-info');
+    var rsMoney  = card.querySelector('.rs-money');
+    if (won) {
+      var top3 = ['arizona','virginia','florida'].indexOf(tid) > -1;
+      var nextRound = top3 ? 'E8 · $340' : 'S16 · ~$625';
+      var beRound   = top3 ? (tid === 'arizona' ? 'Finals' : 'F4') : 'Done ✓';
+      if (rsInfoEl) {
+        rsInfoEl.innerHTML =
+          '<div class="rs-chunk profit-chunk"><div class="rsc-label">Net so far</div><div class="rsc-val">+' + (top3 ? '$0' : '~$' + Math.max(0, 679 - ({akron:280,hofstra:140,ucf:115,florida:1550,missouri:220,virginia:375,arizona:2625}[tid]||0))) + '</div></div>' +
+          '<div class="rs-chunk be-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">' + nextRound + '</div></div>';
+      } else if (rsMoney) {
+        rsMoney.textContent = top3 ? 'Advancing · Next: E8 $340' : '+~$679 · Next: S16';
+        rsMoney.className   = 'rs-money won';
+      }
+    } else {
+      var paid = {akron:280,arizona:2625,virginia:375,hofstra:140,ucf:115,florida:1550,missouri:220}[tid]||0;
+      if (rsMoney) {
+        rsMoney.textContent = '−$' + paid + ' lost';
+        rsMoney.className   = 'rs-money lost';
       }
     }
 
