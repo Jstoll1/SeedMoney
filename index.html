@@ -687,6 +687,96 @@ body {
   border-top: 1px solid rgba(255,255,255,0.04);
 }
 
+
+/* ── BRACKET TICKER ── */
+.bracket-ticker {
+  background:#070d1a;
+  border:1px solid rgba(255,255,255,0.055);
+  border-radius:11px;
+  overflow:hidden;
+  margin-bottom:10px;
+}
+.bt-head {
+  padding:7px 12px;
+  background:rgba(0,0,0,0.3);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:#3d5070;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.bt-counter {
+  font-size:9px;
+  font-weight:700;
+  color:#2d3e58;
+}
+.bt-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+}
+.bt-game {
+  padding:7px 8px;
+  border-right:1px solid rgba(255,255,255,0.035);
+  border-bottom:1px solid rgba(255,255,255,0.035);
+  min-width:0;
+}
+.bt-game:nth-child(3n) { border-right:none; }
+.bt-game.bt-live { background:rgba(240,180,41,0.04); }
+.bt-game.bt-ours { background:rgba(37,99,235,0.05); border-bottom-color:rgba(37,99,235,0.15); }
+.bt-teams {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  margin-bottom:3px;
+}
+.bt-team {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:3px;
+}
+.bt-seed {
+  font-size:7px;
+  font-weight:800;
+  color:#2d3e58;
+  min-width:10px;
+}
+.bt-name {
+  font-size:9px;
+  font-weight:700;
+  color:#3d5070;
+  flex:1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.bt-name.bt-winner { color:#c8d8f0; }
+.bt-name.bt-ours-name { color:#60a0f0; }
+.bt-score {
+  font-size:9px;
+  font-weight:900;
+  color:#2d3e58;
+  min-width:18px;
+  text-align:right;
+}
+.bt-score.bt-winning { color:#10b981; }
+.bt-score.bt-losing  { color:#ef4444; }
+.bt-status {
+  font-size:7px;
+  font-weight:700;
+  color:#2d3e58;
+  text-transform:uppercase;
+  letter-spacing:0.3px;
+}
+.bt-status.bt-live-tag { color:#f0b429; }
+.bt-status.bt-final-tag { color:#1e2e44; }
+.bt-status.bt-time-tag { color:#2d3e58; }
+
 </style>
 </head>
 <body>
@@ -1089,6 +1179,18 @@ body {
 <div class="milestones"><div class="ms be"><div class="ms-l">R1</div><div class="ms-v">$388</div><div class="ms-tag">Even</div></div><div class="ms active"><div class="ms-l">S16</div><div class="ms-v">$391</div></div><div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div><div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,902</div></div><div class="ms active"><div class="ms-l">Final</div><div class="ms-v">$1,087</div></div><div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,445</div></div></div>
 </div>
 </div><!-- /cards-container -->
+
+
+<!-- BRACKET TICKER -->
+<div class="bracket-ticker" id="bracket-ticker">
+  <div class="bt-head">
+    <span>🏀 Round 1 — Full Bracket</span>
+    <span class="bt-counter" id="bt-counter">Loading...</span>
+  </div>
+  <div class="bt-grid" id="bt-grid">
+    <!-- populated by JS -->
+  </div>
+</div>
 
 <!-- SCENARIO CALCULATOR -->
 <div class="scenario-wrap">
@@ -1998,6 +2100,152 @@ function addCardDividers() {
     }
   });
 }
+
+/* ════════════════════════════════════════
+   BRACKET TICKER — full R1 scoreboard
+   Shows all 32 games, 3 per row
+   Our teams highlighted in blue
+════════════════════════════════════════ */
+
+/* Our 12 teams — EXCLUDE these from the bracket ticker entirely */
+var OUR_TEAM_NAMES = [
+  'michigan state','north dakota state','vcu','virginia commonwealth',
+  'georgia','kennesaw state','kennesaw',
+  'akron','arizona','virginia','hofstra','ucf','central florida',
+  'florida','missouri'
+];
+
+function isOurTeam(name) {
+  var n = (name || '').toLowerCase();
+  return OUR_TEAM_NAMES.some(function(t){ return n === t || n.includes(t); });
+}
+
+function gameInvolvesOurTeam(comps) {
+  return comps.some(function(c){
+    return isOurTeam(c.team.displayName || '') || isOurTeam(c.team.shortDisplayName || '');
+  });
+}
+
+function renderBracketTicker(events) {
+  var grid    = document.getElementById('bt-grid');
+  var counter = document.getElementById('bt-counter');
+  if (!grid || !counter) return;
+
+  /* sort: live first, then scheduled by tip time, then final */
+  var sorted = events.slice().sort(function(a, b) {
+    var stA = getGameStatus(a).type;
+    var stB = getGameStatus(b).type;
+    var pri = {live:0, scheduled:1, final:2};
+    var pA = pri[stA] !== undefined ? pri[stA] : 1;
+    var pB = pri[stB] !== undefined ? pri[stB] : 1;
+    if (pA !== pB) return pA - pB;
+    return (a.date || '') < (b.date || '') ? -1 : 1;
+  });
+
+  /* also pull in any games ESPN hasn't returned yet by checking
+     for known Friday games not in the feed */
+  var completed = 0;
+  var total = 0;
+  var html = '';
+
+  sorted.forEach(function(ev) {
+    var comp  = ev.competitions && ev.competitions[0];
+    if (!comp) return;
+    var comps = comp.competitors;
+    if (comps.length < 2) return;
+
+    /* EXCLUDE games involving any of our 12 teams */
+    if (gameInvolvesOurTeam(comps)) return;
+
+    var st = getGameStatus(ev);
+    total++;
+    if (st.type === 'final') completed++;
+
+    /* figure out home/away — use index 0 vs 1 */
+    var t1 = comps[0], t2 = comps[1];
+    var s1 = parseInt(t1.score || 0);
+    var s2 = parseInt(t2.score || 0);
+    var n1 = (t1.team.shortDisplayName || t1.team.abbreviation || '?');
+    var n2 = (t2.team.shortDisplayName || t2.team.abbreviation || '?');
+    var seed1 = (t1.curatedRank && t1.curatedRank.current) || t1.seed || '';
+    var seed2 = (t2.curatedRank && t2.curatedRank.current) || t2.seed || '';
+    var gameClass = 'bt-game' + (st.type === 'live' ? ' bt-live' : '');
+    var n1cls = 'bt-name' + (st.type === 'final' && s1 > s2 ? ' bt-winner' : '');
+    var n2cls = 'bt-name' + (st.type === 'final' && s2 > s1 ? ' bt-winner' : '');
+
+    /* score display */
+    var sc1 = '', sc2 = '';
+    if (st.type === 'live' || st.type === 'final') {
+      sc1 = '<span class="bt-score ' + (s1 > s2 ? 'bt-winning' : s1 < s2 ? 'bt-losing' : '') + '">' + s1 + '</span>';
+      sc2 = '<span class="bt-score ' + (s2 > s1 ? 'bt-winning' : s2 < s1 ? 'bt-losing' : '') + '">' + s2 + '</span>';
+    }
+
+    /* status line */
+    var statusStr = '';
+    if (st.type === 'live') {
+      statusStr = '<div class="bt-status bt-live-tag">⚡ ' + st.label + '</div>';
+    } else if (st.type === 'final') {
+      statusStr = '<div class="bt-status bt-final-tag">Final</div>';
+    } else {
+      /* scheduled — show tip time in ET */
+      var tipTime = '';
+      try {
+        var d = new Date(ev.date);
+        tipTime = d.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', hour12:true, timeZone:'America/New_York'});
+      } catch(e) { tipTime = '–'; }
+      statusStr = '<div class="bt-status bt-time-tag">' + tipTime + ' ET</div>';
+    }
+
+    html +=
+      '<div class="' + gameClass + '">' +
+        '<div class="bt-teams">' +
+          '<div class="bt-team"><span class="bt-seed">' + seed1 + '</span><span class="' + n1cls + '">' + n1 + '</span>' + sc1 + '</div>' +
+          '<div class="bt-team"><span class="bt-seed">' + seed2 + '</span><span class="' + n2cls + '">' + n2 + '</span>' + sc2 + '</div>' +
+        '</div>' +
+        statusStr +
+      '</div>';
+  });
+
+  /* if ESPN hasn't returned all games yet, pad with known scheduled games */
+  if (total < 14) {
+    var KNOWN_FRI = [
+      {s1:7,n1:'Kentucky',   s2:10,n2:'Santa Clara',    tip:'12:15 PM'},
+      {s1:2,n1:'Iowa State', s2:15,n2:'Tennessee St',   tip:'2:50 PM'},
+      {s1:8,n1:'Villanova',  s2:9, n2:'Utah State',     tip:'4:10 PM'},
+      {s1:6,n1:'Tennessee',  s2:11,n2:'Miami (OH)',      tip:'4:25 PM'},
+      {s1:8,n1:'Clemson',    s2:9, n2:'Iowa',            tip:'6:50 PM'},
+      {s1:5,n1:"St. John's", s2:12,n2:'Northern Iowa',  tip:'7:10 PM'},
+      {s1:2,n1:'Purdue',     s2:15,n2:'Queens',          tip:'7:35 PM'},
+      {s1:4,n1:'Kansas',     s2:13,n2:'Cal Baptist',     tip:'9:45 PM'},
+      {s1:2,n1:'UConn',      s2:15,n2:'Furman',          tip:'10:00 PM'},
+    ];
+    /* only add ones not already in html */
+    KNOWN_FRI.forEach(function(g) {
+      if (html.indexOf(g.n1) === -1 && html.indexOf(g.n2) === -1) {
+        total++;
+        html +=
+          '<div class="bt-game">' +
+            '<div class="bt-teams">' +
+              '<div class="bt-team"><span class="bt-seed">' + g.s1 + '</span><span class="bt-name">' + g.n1 + '</span></div>' +
+              '<div class="bt-team"><span class="bt-seed">' + g.s2 + '</span><span class="bt-name">' + g.n2 + '</span></div>' +
+            '</div>' +
+            '<div class="bt-status bt-time-tag">' + g.tip + ' ET</div>' +
+          '</div>';
+      }
+    });
+  }
+
+  grid.innerHTML = html || '<div style="padding:12px;color:#2d3e58;font-size:10px;text-align:center">Loading games...</div>';
+  counter.textContent = completed + '/' + total + ' final';
+}
+
+/* Hook renderBracketTicker into the existing fetch pipeline */
+var _origProcessEvents = processEvents;
+processEvents = function(events) {
+  _origProcessEvents(events);
+  renderBracketTicker(events);
+};
+
 </script>
 
 <!-- ════════════ RULES & PAYOUTS ════════════ -->
