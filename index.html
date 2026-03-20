@@ -47,6 +47,8 @@ overflow:hidden;
 margin-bottom:5px;
 border:1px solid rgba(255,255,255,0.055);
 background:#070d1a;
+box-sizing:border-box;
+width:100%;
 }
 /* theme tokens */
 .card.chalk    { –c:#2563eb; –cg:rgba(37,99,235,0.1); }
@@ -78,7 +80,7 @@ CARD LAYOUT — new structure
 .card-meta {
 display:flex;
 align-items:center;
-padding:5px 12px 0;
+padding:5px 10px 0;
 gap:5px;
 }
 .cm-time { font-size:9px; font-weight:800; color:#4a6080; text-transform:uppercase; letter-spacing:0.6px; }
@@ -90,7 +92,7 @@ gap:5px;
 display:grid;
 grid-template-columns:1fr auto;
 gap:0 8px;
-padding:4px 12px 6px;
+padding:4px 10px 6px;
 align-items:start;
 }
 
@@ -155,17 +157,18 @@ flex-shrink:0;
 .rbox {
 background:rgba(0,0,0,0.4);
 border:1.5px solid var(–c);
-border-radius:8px;
-padding:8px 10px 7px;
+border-radius:7px;
+padding:6px 8px 5px;
 text-align:center;
-min-width:58px;
-box-shadow:0 0 14px var(–cg);
+min-width:48px;
+max-width:54px;
+box-shadow:0 0 10px var(–cg);
 flex-shrink:0;
 }
-.rbox-main  { color:var(–c); font-size:18px; font-weight:900; letter-spacing:-0.4px; line-height:1; }
-.rbox-sup   { font-size:9px; font-weight:800; vertical-align:super; opacity:0.7; }
-.rbox-sub   { color:var(–c); font-size:6.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; opacity:0.4; margin-top:3px; }
-.rbox-score { font-size:13px; font-weight:900; color:var(–c); line-height:1.2; white-space:nowrap; }
+.rbox-main  { color:var(–c); font-size:16px; font-weight:900; letter-spacing:-0.3px; line-height:1; }
+.rbox-sup   { font-size:8px; font-weight:800; vertical-align:super; opacity:0.7; }
+.rbox-sub   { color:var(–c); font-size:6px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; opacity:0.4; margin-top:2px; }
+.rbox-score { font-size:12px; font-weight:900; color:var(–c); line-height:1.2; white-space:nowrap; }
 
 /* paid + financial stack — left of rbox */
 .card-fin {
@@ -195,13 +198,13 @@ gap:4px;
 white-space:nowrap;
 }
 .fin-chunk-label {
-font-size:7px;
+font-size:6.5px;
 font-weight:800;
 text-transform:uppercase;
 letter-spacing:0.5px;
 }
 .fin-chunk-val {
-font-size:10px;
+font-size:9.5px;
 font-weight:900;
 }
 .fin-next  .fin-chunk-label { color:#8a6a10; }
@@ -252,7 +255,7 @@ margin-left:auto;
 .rs-chunk.profit-chunk .rsc-val { color:#10b981; }
 
 /* ── LIVE SCORE BAR ── */
-.live-bar { display:none; align-items:center; justify-content:center; gap:7px; padding:4px 12px 6px; border-top:1px solid rgba(255,255,255,0.04); background:rgba(0,0,0,0.25); }
+.live-bar { display:none; align-items:center; justify-content:center; gap:7px; padding:4px 10px 6px; border-top:1px solid rgba(255,255,255,0.04); background:rgba(0,0,0,0.25); }
 .lb-team   { font-size:9.5px; font-weight:800; color:#3d5070; letter-spacing:0.3px; }
 .lb-score  { font-size:13px; font-weight:900; color:#f0f4ff; min-width:16px; text-align:center; }
 .lb-sep    { font-size:9px; color:#1a2535; }
@@ -346,6 +349,7 @@ display: grid;
 grid-template-columns: repeat(3, 1fr);
 gap: 0;
 }
+.owner-cell:first-child { grid-column: 1; }
 .owner-cell {
 padding: 8px 10px;
 border-right: 1px solid rgba(255,255,255,0.04);
@@ -670,82 +674,55 @@ border-top: 1px solid rgba(255,255,255,0.04);
 
 <div class="owners-box">
   <div class="owners-head">Owners Box</div>
-  <div class="owners-grid" id="owners-grid">
-
-```
-<div class="owner-cell oc-won" id="oc-msu">
-  <span class="oc-paid">$475</span>
-  <div class="oc-name"><span class="oc-seed">#3</span>Michigan St.</div>
-  <div class="oc-status">Won R1 → R2 Sat</div>
-</div>
-
-<div class="owner-cell oc-won" id="oc-vcu">
-  <span class="oc-paid">$170</span>
-  <div class="oc-name"><span class="oc-seed">#11</span>VCU</div>
-  <div class="oc-status">Won R1 OT → R2 Sat</div>
-</div>
-
-<div class="owner-cell oc-out" id="oc-ndsu">
-  <span class="oc-paid">$100</span>
-  <div class="oc-name"><span class="oc-seed">#14</span>N. Dakota St.</div>
-  <div class="oc-status">Lost R1 · 67–92</div>
-</div>
-
-<div class="owner-cell oc-out" id="oc-georgia">
-  <span class="oc-paid">$220</span>
-  <div class="oc-name"><span class="oc-seed">#8</span>Georgia</div>
-  <div class="oc-status">Lost R1 · 77–102</div>
-</div>
-
-<div class="owner-cell oc-out" id="oc-kennesaw">
-  <span class="oc-paid">$180</span>
-  <div class="oc-name"><span class="oc-seed">#14</span>Kennesaw St.</div>
-  <div class="oc-status">Lost R1 · 64–73</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-akron">
-  <span class="oc-paid">$280</span>
-  <div class="oc-name"><span class="oc-seed">#12</span>Akron</div>
-  <div class="oc-status" id="ocs-akron">12:40 PM · truTV</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-arizona">
-  <span class="oc-paid">$2,625</span>
-  <div class="oc-name"><span class="oc-seed">#1</span>Arizona</div>
-  <div class="oc-status" id="ocs-arizona">1:35 PM · TNT</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-virginia">
-  <span class="oc-paid">$375</span>
-  <div class="oc-name"><span class="oc-seed">#3</span>Virginia</div>
-  <div class="oc-status" id="ocs-virginia">1:50 PM · TBS</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-hofstra">
-  <span class="oc-paid">$140</span>
-  <div class="oc-name"><span class="oc-seed">#13</span>Hofstra</div>
-  <div class="oc-status" id="ocs-hofstra">3:15 PM · truTV</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-ucf">
-  <span class="oc-paid">$115</span>
-  <div class="oc-name"><span class="oc-seed">#10</span>UCF</div>
-  <div class="oc-status" id="ocs-ucf">7:25 PM · TBS</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-florida">
-  <span class="oc-paid">$1,550</span>
-  <div class="oc-name"><span class="oc-seed">#1</span>Florida</div>
-  <div class="oc-status" id="ocs-florida">9:25 PM · TNT</div>
-</div>
-
-<div class="owner-cell oc-soon" id="oc-missouri">
-  <span class="oc-paid">$220</span>
-  <div class="oc-name"><span class="oc-seed">#10</span>Missouri</div>
-  <div class="oc-status" id="ocs-missouri">10:10 PM · truTV</div>
-</div>
-```
-
+  <div class="owners-grid" id="owners-grid"><div class="owner-cell oc-won" id="oc-msu">
+      <span class="oc-paid">$475</span>
+      <div class="oc-name"><span class="oc-seed">#3</span>Michigan St.</div>
+      <div class="oc-status">Won R1 → R2 Sat</div>
+    </div><div class="owner-cell oc-won" id="oc-vcu">
+      <span class="oc-paid">$170</span>
+      <div class="oc-name"><span class="oc-seed">#11</span>VCU</div>
+      <div class="oc-status">Won R1 OT → R2 Sat</div>
+    </div><div class="owner-cell oc-out" id="oc-ndsu">
+      <span class="oc-paid">$100</span>
+      <div class="oc-name"><span class="oc-seed">#14</span>N. Dakota St.</div>
+      <div class="oc-status">Lost R1 · 67–92</div>
+    </div><div class="owner-cell oc-out" id="oc-georgia">
+      <span class="oc-paid">$220</span>
+      <div class="oc-name"><span class="oc-seed">#8</span>Georgia</div>
+      <div class="oc-status">Lost R1 · 77–102</div>
+    </div><div class="owner-cell oc-out" id="oc-kennesaw">
+      <span class="oc-paid">$180</span>
+      <div class="oc-name"><span class="oc-seed">#14</span>Kennesaw St.</div>
+      <div class="oc-status">Lost R1 · 64–73</div>
+    </div><div class="owner-cell oc-soon" id="oc-akron">
+      <span class="oc-paid">$280</span>
+      <div class="oc-name"><span class="oc-seed">#12</span>Akron</div>
+      <div class="oc-status" id="ocs-akron">12:40 PM · truTV</div>
+    </div><div class="owner-cell oc-soon" id="oc-arizona">
+      <span class="oc-paid">$2,625</span>
+      <div class="oc-name"><span class="oc-seed">#1</span>Arizona</div>
+      <div class="oc-status" id="ocs-arizona">1:35 PM · TNT</div>
+    </div><div class="owner-cell oc-soon" id="oc-virginia">
+      <span class="oc-paid">$375</span>
+      <div class="oc-name"><span class="oc-seed">#3</span>Virginia</div>
+      <div class="oc-status" id="ocs-virginia">1:50 PM · TBS</div>
+    </div><div class="owner-cell oc-soon" id="oc-hofstra">
+      <span class="oc-paid">$140</span>
+      <div class="oc-name"><span class="oc-seed">#13</span>Hofstra</div>
+      <div class="oc-status" id="ocs-hofstra">3:15 PM · truTV</div>
+    </div><div class="owner-cell oc-soon" id="oc-ucf">
+      <span class="oc-paid">$115</span>
+      <div class="oc-name"><span class="oc-seed">#10</span>UCF</div>
+      <div class="oc-status" id="ocs-ucf">7:25 PM · TBS</div>
+    </div><div class="owner-cell oc-soon" id="oc-florida">
+      <span class="oc-paid">$1,550</span>
+      <div class="oc-name"><span class="oc-seed">#1</span>Florida</div>
+      <div class="oc-status" id="ocs-florida">9:25 PM · TNT</div>
+    </div><div class="owner-cell oc-soon" id="oc-missouri">
+      <span class="oc-paid">$220</span>
+      <div class="oc-name"><span class="oc-seed">#10</span>Missouri</div>
+      <div class="oc-status" id="ocs-missouri">10:10 PM · truTV</div>
+    </div>
 </div>
 
 <!-- INTEL BOX -->
@@ -765,7 +742,7 @@ border-top: 1px solid rgba(255,255,255,0.04);
     <div class="intel-row">
       <div class="intel-row-icon">🎯</div>
       <div class="intel-row-body">
-        <div class="intel-row-label">Tonight's money makers</div>
+        <div class="intel-row-label">Today's money makers</div>
         <div class="intel-row-text" id="intel-tonight">Loading...</div>
       </div>
     </div>
@@ -1354,33 +1331,27 @@ function normInv(p) {
 }
 
 function liveWinProb(tid, myScore, oppScore, period, clockStr) {
+  /* Clock-free model — uses period only for time estimate.
+     Period 1 (H1) → assume ~20 mins left in game (midpoint of half)
+     Half time     → 20 mins left
+     Period 2 (H2) → assume ~10 mins left (midpoint of half)
+     OT+           → 3 mins left
+  */
   var preWin = PRE_GAME_WIN[tid] || 0.5;
-  var SIGMA  = 11; /* pts std dev per 40 min */
+  var SIGMA  = 11; /* empirical pts std dev, per basketball-reference */
 
-  /* parse clock MM:SS → decimal minutes remaining in current half */
-  var minsInClock = 0;
-  if (clockStr) {
-    var parts = clockStr.split(':');
-    minsInClock = parseFloat(parts[0]) + (parseFloat(parts[1]||0) / 60);
-  }
-
-  /* total game minutes remaining */
   var minsLeft;
-  if (period === 1)      minsLeft = minsInClock + 20;   /* rest of H1 + H2 */
-  else if (period === 2) minsLeft = minsInClock;         /* rest of H2 */
-  else                   minsLeft = minsInClock;         /* OT — treat as remainder */
-
-  /* clamp to avoid division issues */
-  minsLeft = Math.max(0.05, Math.min(40, minsLeft));
+  if      (period <= 1)  minsLeft = 30;   /* H1 — lots of game left, prior matters most */
+  else if (period === 2) minsLeft = 10;   /* H2 — score differential becomes decisive */
+  else                   minsLeft = 3;    /* OT */
 
   var lead     = myScore - oppScore;
   var priorZ   = normInv(preWin);
-  var weight   = minsLeft / 40;                          /* prior fades as game progresses */
-  var scoreZ   = lead / (SIGMA * Math.sqrt(minsLeft / 40));
+  var weight   = minsLeft / 40;
+  var scoreZ   = lead / (SIGMA * Math.sqrt(Math.max(minsLeft, 1) / 40));
   var blendedZ = priorZ * weight + scoreZ * (1 - weight);
 
-  var p = normCDF(blendedZ);
-  return Math.ceil(Math.max(1, Math.min(99, p * 100)));
+  return Math.ceil(Math.max(1, Math.min(99, normCDF(blendedZ) * 100)));
 }
 
 function getGameStatus(ev) {
