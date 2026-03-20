@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -765,8 +764,8 @@ body {
   min-width:18px;
   text-align:right;
 }
-.bt-score.bt-winning { color:#10b981; }
-.bt-score.bt-losing  { color:#ef4444; }
+.bt-score.bt-winning, .lb-score.bt-winning { color:#10b981; }
+.bt-score.bt-losing,  .lb-score.bt-losing  { color:#ef4444; }
 .bt-status {
   font-size:7px;
   font-weight:700;
@@ -792,18 +791,17 @@ body {
 #cards-container .dynamic-divider { display: none; }
 
 .tg-body  { padding: 7px 7px 4px; }
-.tg-row1  { display:flex; align-items:baseline; gap:3px; margin-bottom:2px; }
+.tg-row1  { display:flex; align-items:baseline; gap:3px; margin-bottom:4px; }
 .tg-seed  { font-size:9px; font-weight:800; color:#2d3e58; flex-shrink:0; }
 .tg-team  { font-size:11px; font-weight:900; color:#f0f4ff; flex:1;
             white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
             letter-spacing:-0.3px; line-height:1.2; }
+.tg-paid-inline { font-size:9px; font-weight:800; color:#5a7099; flex-shrink:0; white-space:nowrap; }
 .card.s-loss .tg-team { color:#1e2e44; }
 .card.s-won  .tg-team { color:#6ee7b7; }
 .card.s-live .tg-team { color:#f0b429; }
 
 .tg-row2  { display:flex; align-items:center; gap:4px; margin-bottom:4px; flex-wrap:wrap; }
-.tg-row2 .fin-paid { font-size:10px !important; font-weight:900 !important;
-                     color:#c8d8f0 !important; line-height:1 !important; margin-bottom:0 !important; }
 .tg-row2 .spill    { font-size:8px !important; padding:1px 5px !important;
                      margin-left:auto; white-space:nowrap; }
 
@@ -811,10 +809,13 @@ body {
            margin-bottom:4px; line-height:1.3; }
 .tg-vs strong { color:#4a6888; }
 
-#cards-container .live-bar { padding:3px 7px; }
-#cards-container .lb-team  { font-size:8.5px; }
-#cards-container .lb-score { font-size:11px; }
-#cards-container .lb-status { font-size:7.5px; }
+#cards-container .live-bar  { padding:4px 6px; gap:4px; justify-content:center;
+                               background:rgba(240,180,41,0.07);
+                               border-top:1px solid rgba(240,180,41,0.14); }
+#cards-container .lb-team   { display:none; }
+#cards-container .lb-sep    { font-size:13px; color:#3d5070; }
+#cards-container .lb-score  { font-size:15px !important; font-weight:900 !important; }
+#cards-container .lb-status { font-size:8px; margin-left:2px; }
 
 .tg-foot  { border-top:1px solid rgba(255,255,255,0.05); padding:5px 7px 6px;
             display:flex; align-items:center; justify-content:space-between; gap:4px; }
@@ -851,63 +852,10 @@ body {
 <div class="stats-row">
   <div class="stat"><div class="stat-n">12</div><div class="stat-l">Teams</div></div>
   <div class="stat"><div class="stat-n" style="color:#10b981" id="stat-adv">2</div><div class="stat-l">Advancing</div></div>
-  <div class="stat"><div class="stat-n" style="color:#ef4444" id="stat-elim">3</div><div class="stat-l">Eliminated</div></div>
-  <div class="stat"><div class="stat-n" style="color:#f0b429" id="stat-live">7</div><div class="stat-l">Pending</div></div>
+  <div class="stat"><div class="stat-n" style="color:#ef4444" id="stat-elim">4</div><div class="stat-l">Eliminated</div></div>
+  <div class="stat"><div class="stat-n" style="color:#f0b429" id="stat-live">6</div><div class="stat-l">Pending</div></div>
 </div>
 
-<!-- OWNERS GRID -->
-<div class="owners-box">
-  <div class="owners-head">Owners Box</div>
-  <div class="owners-grid" id="owners-grid"><div class="owner-cell oc-won" id="oc-msu">
-      <span class="oc-paid">$475</span>
-      <div class="oc-name"><span class="oc-seed">#3</span>Michigan St.</div>
-      <div class="oc-status">Won R1 → R2 Sat</div>
-    </div><div class="owner-cell oc-won" id="oc-vcu">
-      <span class="oc-paid">$170</span>
-      <div class="oc-name"><span class="oc-seed">#11</span>VCU</div>
-      <div class="oc-status">Won R1 OT → R2 Sat</div>
-    </div><div class="owner-cell oc-out" id="oc-ndsu">
-      <span class="oc-paid">$100</span>
-      <div class="oc-name"><span class="oc-seed">#14</span>N. Dakota St.</div>
-      <div class="oc-status">Lost R1 · 67–92</div>
-    </div><div class="owner-cell oc-out" id="oc-georgia">
-      <span class="oc-paid">$220</span>
-      <div class="oc-name"><span class="oc-seed">#8</span>Georgia</div>
-      <div class="oc-status">Lost R1 · 77–102</div>
-    </div><div class="owner-cell oc-out" id="oc-kennesaw">
-      <span class="oc-paid">$180</span>
-      <div class="oc-name"><span class="oc-seed">#14</span>Kennesaw St.</div>
-      <div class="oc-status">Lost R1 · 64–73</div>
-    </div><div class="owner-cell oc-soon" id="oc-akron">
-      <span class="oc-paid">$280</span>
-      <div class="oc-name"><span class="oc-seed">#12</span>Akron</div>
-      <div class="oc-status" id="ocs-akron">12:40 PM · truTV</div>
-    </div><div class="owner-cell oc-soon" id="oc-arizona">
-      <span class="oc-paid">$2,625</span>
-      <div class="oc-name"><span class="oc-seed">#1</span>Arizona</div>
-      <div class="oc-status" id="ocs-arizona">1:35 PM · TNT</div>
-    </div><div class="owner-cell oc-soon" id="oc-virginia">
-      <span class="oc-paid">$375</span>
-      <div class="oc-name"><span class="oc-seed">#3</span>Virginia</div>
-      <div class="oc-status" id="ocs-virginia">1:50 PM · TBS</div>
-    </div><div class="owner-cell oc-soon" id="oc-hofstra">
-      <span class="oc-paid">$140</span>
-      <div class="oc-name"><span class="oc-seed">#13</span>Hofstra</div>
-      <div class="oc-status" id="ocs-hofstra">3:15 PM · truTV</div>
-    </div><div class="owner-cell oc-soon" id="oc-ucf">
-      <span class="oc-paid">$115</span>
-      <div class="oc-name"><span class="oc-seed">#10</span>UCF</div>
-      <div class="oc-status" id="ocs-ucf">7:25 PM · TBS</div>
-    </div><div class="owner-cell oc-soon" id="oc-florida">
-      <span class="oc-paid">$1,550</span>
-      <div class="oc-name"><span class="oc-seed">#1</span>Florida</div>
-      <div class="oc-status" id="ocs-florida">9:25 PM · TNT</div>
-    </div><div class="owner-cell oc-soon" id="oc-missouri">
-      <span class="oc-paid">$220</span>
-      <div class="oc-name"><span class="oc-seed">#10</span>Missouri</div>
-      <div class="oc-status" id="ocs-missouri">10:10 PM · truTV</div>
-    </div>
-</div>
 
 <!-- INTEL BOX -->
 <div class="intel-box" id="intel-box">
@@ -938,8 +886,8 @@ body {
 <div class="card bigdog s-loss" data-tid="ndsu" data-tip="245">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#14</span><span class="tg-team">N. Dakota St.</span></div>
-    <div class="tg-row2"><span class="fin-paid">$100</span><span class="spill loss-p">Out</span></div>
+    <div class="tg-row1"><span class="tg-seed">#14</span><span class="tg-team">N. Dakota St.</span><span class="tg-paid-inline fin-paid">$100</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(3) Michigan St.</strong></div>
   </div>
   <div class="tg-foot">
@@ -951,8 +899,8 @@ body {
 <div class="card chalk s-won" data-tid="msu" data-tip="245">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#3</span><span class="tg-team">Michigan St.</span></div>
-    <div class="tg-row2"><span class="fin-paid">$475</span><span class="spill won-p">Adv ✓</span></div>
+    <div class="tg-row1"><span class="tg-seed">#3</span><span class="tg-team">Michigan St.</span><span class="tg-paid-inline fin-paid">$475</span></div>
+    <div class="tg-row2"><span class="spill won-p">Adv ✓</span></div>
     <div class="matchup-line tg-vs">Won 92–67 · Next vs <strong>Louisville</strong></div>
   </div>
   <div class="tg-foot">
@@ -964,8 +912,8 @@ body {
 <div class="card coinflip s-won" data-tid="vcu" data-tip="410">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#11</span><span class="tg-team">VCU</span></div>
-    <div class="tg-row2"><span class="fin-paid">$170</span><span class="spill won-p">Adv ✓</span></div>
+    <div class="tg-row1"><span class="tg-seed">#11</span><span class="tg-team">VCU</span><span class="tg-paid-inline fin-paid">$170</span></div>
+    <div class="tg-row2"><span class="spill won-p">Adv ✓</span></div>
     <div class="matchup-line tg-vs">Won 82–78 OT · Next vs <strong>Illinois</strong></div>
   </div>
   <div class="tg-foot">
@@ -977,8 +925,8 @@ body {
 <div class="card coinflip s-loss" data-tid="georgia" data-tip="585">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#8</span><span class="tg-team">Georgia</span></div>
-    <div class="tg-row2"><span class="fin-paid">$220</span><span class="spill loss-p">Out</span></div>
+    <div class="tg-row1"><span class="tg-seed">#8</span><span class="tg-team">Georgia</span><span class="tg-paid-inline fin-paid">$220</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(9) Saint Louis</strong></div>
   </div>
   <div class="tg-foot">
@@ -990,8 +938,8 @@ body {
 <div class="card bigdog s-loss" data-tid="kennesaw" data-tip="600">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#14</span><span class="tg-team">Kennesaw St.</span></div>
-    <div class="tg-row2"><span class="fin-paid">$180</span><span class="spill loss-p">Out</span></div>
+    <div class="tg-row1"><span class="tg-seed">#14</span><span class="tg-team">Kennesaw St.</span><span class="tg-paid-inline fin-paid">$180</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(3) Gonzaga</strong></div>
   </div>
   <div class="tg-foot">
@@ -999,26 +947,26 @@ body {
     <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$180</div></div>
   </div>
 </div>
-<!-- 6. AKRON -->
-<div class="card dog s-soon" data-tid="akron" data-tip="780">
+<!-- 6. AKRON (LOSS) -->
+<div class="card dog s-loss" data-tid="akron" data-tip="780">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#12</span><span class="tg-team">Akron</span></div>
-    <div class="tg-row2"><span class="fin-paid">$280</span></div>
-    <div class="matchup-line tg-vs">vs <strong>(5) Texas Tech</strong> +8.5</div>
-    <div class="live-bar" id="lb-akron"></div>
+    <div class="tg-row1"><span class="tg-seed">#12</span><span class="tg-team">Akron</span><span class="tg-paid-inline fin-paid">$280</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
+    <div class="matchup-line tg-vs">Lost to <strong>(5) Texas Tech</strong></div>
+    <div class="live-bar" id="lb-akron" style="display:flex"><span class="lb-score bt-losing">71</span><span class="lb-sep">–</span><span class="lb-score bt-winning">91</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox pct-dog"><div class="rbox-main">27<span class="rbox-sup">%</span></div><div class="rbox-sub">Win%</div></div>
-    <div class="tg-next" id="tgnext-akron"><div class="tg-nl">If wins</div><div class="tg-nv">R1 ~$388</div></div>
+    <div class="rbox"><div class="rbox-score">71–91</div></div>
+    <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$280</div></div>
   </div>
 </div>
 <!-- 7. ARIZONA -->
 <div class="card chalk s-soon" data-tid="arizona" data-tip="815">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#1</span><span class="tg-team">Arizona</span></div>
-    <div class="tg-row2"><span class="fin-paid">$2,625</span></div>
+    <div class="tg-row1"><span class="tg-seed">#1</span><span class="tg-team">Arizona</span><span class="tg-paid-inline fin-paid">$2,625</span></div>
+    <div class="tg-row2"></div>
     <div class="matchup-line tg-vs">vs <strong>(16) Long Island</strong> −30.5</div>
     <div class="live-bar" id="lb-arizona"></div>
   </div>
@@ -1031,8 +979,8 @@ body {
 <div class="card chalk s-soon" data-tid="virginia" data-tip="830">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#3</span><span class="tg-team">Virginia</span></div>
-    <div class="tg-row2"><span class="fin-paid">$375</span></div>
+    <div class="tg-row1"><span class="tg-seed">#3</span><span class="tg-team">Virginia</span><span class="tg-paid-inline fin-paid">$375</span></div>
+    <div class="tg-row2"></div>
     <div class="matchup-line tg-vs">vs <strong>(14) Wright State</strong> −17.5</div>
     <div class="live-bar" id="lb-virginia"></div>
   </div>
@@ -1045,8 +993,8 @@ body {
 <div class="card bigdog s-soon" data-tid="hofstra" data-tip="915">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#13</span><span class="tg-team">Hofstra</span></div>
-    <div class="tg-row2"><span class="fin-paid">$140</span></div>
+    <div class="tg-row1"><span class="tg-seed">#13</span><span class="tg-team">Hofstra</span><span class="tg-paid-inline fin-paid">$140</span></div>
+    <div class="tg-row2"></div>
     <div class="matchup-line tg-vs">vs <strong>(4) Alabama</strong> +11.5</div>
     <div class="live-bar" id="lb-hofstra"></div>
   </div>
@@ -1059,8 +1007,8 @@ body {
 <div class="card coinflip s-soon" data-tid="ucf" data-tip="1285">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#10</span><span class="tg-team">UCF</span></div>
-    <div class="tg-row2"><span class="fin-paid">$115</span></div>
+    <div class="tg-row1"><span class="tg-seed">#10</span><span class="tg-team">UCF</span><span class="tg-paid-inline fin-paid">$115</span></div>
+    <div class="tg-row2"></div>
     <div class="matchup-line tg-vs">vs <strong>(7) UCLA</strong> +5.5</div>
     <div class="live-bar" id="lb-ucf"></div>
   </div>
@@ -1073,8 +1021,8 @@ body {
 <div class="card chalk s-soon" data-tid="florida" data-tip="1405">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#1</span><span class="tg-team">Florida</span></div>
-    <div class="tg-row2"><span class="fin-paid">$1,550</span></div>
+    <div class="tg-row1"><span class="tg-seed">#1</span><span class="tg-team">Florida</span><span class="tg-paid-inline fin-paid">$1,550</span></div>
+    <div class="tg-row2"></div>
     <div class="matchup-line tg-vs">vs <strong>(16) Prairie View</strong> −35.5</div>
     <div class="live-bar" id="lb-florida"></div>
   </div>
@@ -1087,8 +1035,8 @@ body {
 <div class="card coinflip s-soon" data-tid="missouri" data-tip="1450">
   <div class="card-topline"></div>
   <div class="tg-body">
-    <div class="tg-row1"><span class="tg-seed">#10</span><span class="tg-team">Missouri</span></div>
-    <div class="tg-row2"><span class="fin-paid">$220</span></div>
+    <div class="tg-row1"><span class="tg-seed">#10</span><span class="tg-team">Missouri</span><span class="tg-paid-inline fin-paid">$220</span></div>
+    <div class="tg-row2"></div>
     <div class="matchup-line tg-vs">vs <strong>(7) Miami (FL)</strong> +2.5</div>
     <div class="live-bar" id="lb-missouri"></div>
   </div>
@@ -1185,7 +1133,7 @@ var FRI_TEAMS = {
   akron:    function(n){ return n === 'akron'; },
   arizona:  function(n){ return n === 'arizona'; },
   virginia: function(n){ return n === 'virginia'; },
-  hofstra:  function(n){ return n === 'hofstra'; },
+  hofstra:  function(n){ return n.includes('hofstra'); },
   ucf:      function(n){ return n.includes('central florida') || n === 'ucf'; },
   florida:  function(n){ return n === 'florida'; },
   missouri: function(n){ return n === 'missouri'; }
@@ -1307,7 +1255,7 @@ function applyGameUpdate(tid, c1, c2, st) {
   if (!pill) {
     pill = document.createElement('span');
     pill.className = 'spill soon-p';
-    var meta = card.querySelector('.card-meta');
+    var meta = card.querySelector('.card-meta') || card.querySelector('.tg-row2') || card.querySelector('.tg-row1');
     if (meta) meta.appendChild(pill);
   }
 
@@ -1358,15 +1306,14 @@ function applyGameUpdate(tid, c1, c2, st) {
     pill.className = 'spill live-p';
     card.classList.remove('s-soon'); card.classList.add('s-live');
 
-    /* live score bar */
+    /* live score bar — color by higher score regardless of c1/c2 order */
     if (bar) {
       bar.style.display = 'flex';
+      var s1n = parseInt(sc1) || 0, s2n = parseInt(sc2) || 0;
       bar.innerHTML =
-        '<span class="lb-team">' + n1 + '</span>' +
-        '<span class="lb-score">' + sc1 + '</span>' +
+        '<span class="lb-score ' + (s1n > s2n ? 'bt-winning' : s1n < s2n ? 'bt-losing' : '') + '">' + sc1 + '</span>' +
         '<span class="lb-sep">–</span>' +
-        '<span class="lb-score">' + sc2 + '</span>' +
-        '<span class="lb-team">' + n2 + '</span>' +
+        '<span class="lb-score ' + (s2n > s1n ? 'bt-winning' : s2n < s1n ? 'bt-losing' : '') + '">' + sc2 + '</span>' +
         '<span class="lb-status lb-live">' + st.label + '</span>';
     }
 
@@ -1465,11 +1412,9 @@ function applyGameUpdate(tid, c1, c2, st) {
     if (bar) {
       bar.style.display = 'flex';
       bar.innerHTML =
-        '<span class="lb-team">' + n1 + '</span>' +
-        '<span class="lb-score">' + sc1 + '</span>' +
+        '<span class="lb-score' + (won?' bt-winning':' bt-losing') + '">' + myScore + '</span>' +
         '<span class="lb-sep">–</span>' +
-        '<span class="lb-score">' + sc2 + '</span>' +
-        '<span class="lb-team">' + n2 + '</span>' +
+        '<span class="lb-score' + (won?' bt-losing':' bt-winning') + '">' + oppScore + '</span>' +
         '<span class="lb-status lb-final">FINAL</span>';
     }
 
@@ -1853,7 +1798,7 @@ processEvents = function(events) {
     if (!comp) return;
     var comps = comp.competitors;
     Object.keys(FRI_TEAMS).forEach(function(tid) {
-      var myC = comps.find(function(c){ return FRI_TEAMS[tid]((c.team.displayName||'').toLowerCase()); });
+      var myC = comps.find(function(c){ return FRI_TEAMS[tid]((c.team.displayName||'').toLowerCase()) || FRI_TEAMS[tid]((c.team.shortDisplayName||'').toLowerCase()); });
       if (!myC) return;
       var st = getGameStatus(ev);
 
