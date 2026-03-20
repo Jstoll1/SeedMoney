@@ -887,7 +887,13 @@ body {
         <div class="intel-row-text" id="intel-tonight">Loading...</div>
       </div>
     </div>
-
+    <div class="intel-row">
+      <div class="intel-row-icon">💰</div>
+      <div class="intel-row-body">
+        <div class="intel-row-label">Best path · max upside</div>
+        <div class="intel-row-text" id="intel-bestpath">Loading…</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1004,18 +1010,18 @@ body {
     <div class="tg-next" id="tgnext-virginia"><div class="tg-nl">First $</div><div class="tg-nv">E8 · $340</div></div>
   </div>
 </div>
-<!-- 9. HOFSTRA -->
-<div class="card bigdog s-soon" data-tid="hofstra" data-tip="915">
+<!-- 9. HOFSTRA (LOSS) -->
+<div class="card bigdog s-loss" data-tid="hofstra" data-tip="915">
   <div class="card-topline"></div>
   <div class="tg-body">
     <div class="tg-row1"><span class="tg-seed">#13</span><span class="tg-team">Hofstra</span><span class="tg-paid-inline fin-paid">$140</span></div>
-    <div class="tg-row2"></div>
-    <div class="matchup-line tg-vs">vs <strong>(4) Alabama</strong> +11.5</div>
-    <div class="live-bar" id="lb-hofstra"></div>
+    <div class="tg-row2"><span class="spill loss-p">Eliminated</span></div>
+    <div class="matchup-line tg-vs">Lost to <strong>(4) Alabama</strong></div>
+    <div class="live-bar" id="lb-hofstra" style="display:none"></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox pct-longshot"><div class="rbox-main">15<span class="rbox-sup">%</span></div><div class="rbox-sub">Win%</div></div>
-    <div class="tg-next" id="tgnext-hofstra"><div class="tg-nl">If wins</div><div class="tg-nv">R1 ~$388</div></div>
+    <div class="rbox"><div class="rbox-score">–</div><div class="rbox-sub">Lost</div></div>
+    <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$140</div></div>
   </div>
 </div>
 <!-- 10. UCF -->
@@ -1148,7 +1154,7 @@ var FRI_TEAMS = {
   akron:    function(n){ return n === 'akron'; },
   arizona:  function(n){ return n === 'arizona'; },
   virginia: function(n){ return n === 'virginia'; },
-  hofstra:  function(n){ return n.includes('hofstra'); },
+
   ucf:      function(n){ return n.includes('central florida') || n === 'ucf'; },
   florida:  function(n){ return n === 'florida'; },
   missouri: function(n){ return n === 'missouri'; }
@@ -1157,13 +1163,13 @@ var FRI_TEAMS = {
 /* scheduled time labels for pill fallback */
 var TIP_LABELS = {
   akron:'12:40 PM', arizona:'1:35 PM', virginia:'1:50 PM',
-  hofstra:'3:15 PM', ucf:'7:25 PM', florida:'9:25 PM', missouri:'10:10 PM'
+  ucf:'7:25 PM', florida:'9:25 PM', missouri:'10:10 PM'
 };
 
 /* pre-game win % for our team (vegas implied from spread) */
 var PRE_GAME_WIN = {
   akron:0.27, arizona:0.99, virginia:0.95,
-  hofstra:0.15, ucf:0.35, florida:0.99, missouri:0.45
+  ucf:0.35, florida:0.99, missouri:0.45
 };
 
 /* ── WIN PROBABILITY MODEL ────────────────────────────────
@@ -1614,7 +1620,7 @@ var INTEL = {
     akron:    { name:'Akron',        paid:280,  seed:12, top3:false, alive:true, r1won:false, r1eligible:true  },
     arizona:  { name:'Arizona',      paid:2625, seed:1,  top3:true,  alive:true, r1won:false, r1eligible:false },
     virginia: { name:'Virginia',     paid:375,  seed:3,  top3:true,  alive:true, r1won:false, r1eligible:false },
-    hofstra:  { name:'Hofstra',      paid:140,  seed:13, top3:false, alive:true, r1won:false, r1eligible:true  },
+    hofstra:  { name:'Hofstra',      paid:140,  seed:13, top3:false, alive:false, r1won:false, r1eligible:false },
     ucf:      { name:'UCF',          paid:115,  seed:10, top3:false, alive:true, r1won:false, r1eligible:true  },
     florida:  { name:'Florida',      paid:1550, seed:1,  top3:true,  alive:true, r1won:false, r1eligible:false },
     missouri: { name:'Missouri',     paid:220,  seed:10, top3:false, alive:true, r1won:false, r1eligible:true  }
@@ -1623,9 +1629,9 @@ var INTEL = {
   confirmed: 339.50,  /* VCU R1 actual payout from spreadsheet */
 
   fridayWon:  [],
-  fridayLost: [],
+  fridayLost: ['hofstra'],
   fridayLive: [],
-  fridayLeft: ['akron','arizona','virginia','hofstra','ucf','florida','missouri']
+  fridayLeft: ['akron','arizona','virginia','ucf','florida','missouri']
 };
 
 /* Payout for one of our teams reaching a given round */
@@ -1712,6 +1718,49 @@ function recordOtherR1Win() {
   BRACKET.fridayOtherR1Won++;
 }
 
+function renderBestPath() {
+  var t  = INTEL.teams;
+  var el = document.getElementById('intel-bestpath');
+  if (!el) return;
+
+  /* Teams still alive */
+  var alive = Object.keys(t).filter(function(tid) {
+    return INTEL.fridayLost.indexOf(tid) < 0 && t[tid].alive !== false;
+  });
+  if (alive.length === 0) { el.innerHTML = 'All teams eliminated.'; return; }
+
+  var top3Alive = alive.filter(function(tid) { return t[tid].top3; });
+  var lowAlive  = alive.filter(function(tid) { return !t[tid].top3; });
+  var lowThru   = lowAlive.filter(function(tid) { return t[tid].r1won || INTEL.fridayWon.indexOf(tid) > -1; });
+  var lowPend   = lowAlive.filter(function(tid) { return !t[tid].r1won && INTEL.fridayWon.indexOf(tid) < 0; });
+
+  /* Best-case ceiling per bucket */
+  var r1Share  = potPerTeam('r1');
+  var s16Share = Math.ceil(POTS.s16 / 16);
+  var f4Fixed  = Math.ceil(POTS.f4);
+
+  /* Top-3: E8 (full pot if only ours make it) + up to 2 in F4 + both in Finals + 1 wins Champ.
+     Cap F4 at 2 — having all 4 top seeds sweep all 4 regions inflates unrealistically. */
+  var f4Cap = Math.min(top3Alive.length, 2);
+  var top3Max = top3Alive.length > 0
+    ? Math.ceil(POTS.e8) + f4Cap * f4Fixed +
+      (f4Cap >= 2 ? Math.ceil(2 * POTS.finals) + Math.ceil(POTS.champ) : f4Cap * Math.ceil(POTS.finals))
+    : 0;
+
+  /* Low seeds: R1 (if still pending) + S16 */
+  var lowMax = lowThru.length * s16Share + lowPend.length * (r1Share + s16Share);
+
+  var total = top3Max + lowMax;
+
+  el.innerHTML =
+    'Max still available: <span class="hi-green" style="font-size:13px;font-weight:700">$' +
+    total.toLocaleString() + '</span>' +
+    '<span class="intel-outcome-sub" style="color:#4a6888">' +
+    alive.length + ' team' + (alive.length !== 1 ? 's' : '') + ' alive · ' +
+    lowPend.length + ' R1 game' + (lowPend.length !== 1 ? 's' : '') + ' pending' +
+    '</span>';
+}
+
 function renderIntelBox() {
   var t        = INTEL.teams;
   var totalIn  = INTEL.totalIn;
@@ -1794,6 +1843,7 @@ function renderIntelBox() {
   if (statElim) statElim.textContent = elimCount;
   if (statLive) statLive.textContent = Math.max(0, pendCount);
   refreshAllCardPayouts();
+  renderBestPath();
 }
 
 /* ── Hook into score engine ── */
