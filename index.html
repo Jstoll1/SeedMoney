@@ -48,6 +48,8 @@ body {
   background:#070d1a;
   box-sizing:border-box;
   width:100%;
+  display:flex;
+  flex-direction:column;
 }
 /* theme tokens */
 .card.chalk    { --c:#2563eb; --cg:rgba(37,99,235,0.1); }
@@ -56,7 +58,7 @@ body {
 .card.bigdog   { --c:#dc2626; --cg:rgba(220,38,38,0.1); }
 /* state overrides */
 .card.s-won  { border-color:rgba(16,185,129,0.2);  --c:#10b981; --cg:rgba(16,185,129,0.08); }
-.card.s-loss { border-color:rgba(255,255,255,0.015); opacity:0.52; --c:#1e2e44; --cg:rgba(0,0,0,0); margin-bottom:2px; }
+.card.s-loss { border-color:rgba(255,255,255,0.015); opacity:0.70; --c:#1e2e44; --cg:rgba(0,0,0,0); margin-bottom:2px; }
 .card.s-live { border-color:rgba(240,180,41,0.32); --c:#f0b429; --cg:rgba(240,180,41,0.1); animation:liveBorder 3s ease-in-out infinite; }
 .card.s-soon { /* keep original theme token */ }
 /* tighten gap between consecutive loss cards */
@@ -790,7 +792,7 @@ body {
 #cards-container .card.s-loss + .card.s-loss { margin-top: 0; }
 #cards-container .dynamic-divider { display: none; }
 
-.tg-body  { padding: 7px 7px 4px; }
+.tg-body  { padding: 7px 7px 4px; flex:1; }
 .tg-row1  { display:flex; align-items:baseline; gap:3px; margin-bottom:4px; }
 .tg-seed  { font-size:9px; font-weight:800; color:#2d3e58; flex-shrink:0; }
 .tg-team  { font-size:11px; font-weight:900; color:#f0f4ff; flex:1;
@@ -887,11 +889,12 @@ body {
   <div class="card-topline"></div>
   <div class="tg-body">
     <div class="tg-row1"><span class="tg-seed">#14</span><span class="tg-team">N. Dakota St.</span><span class="tg-paid-inline fin-paid">$100</span></div>
-    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Eliminated</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(3) Michigan St.</strong></div>
+    <div class="live-bar" id="lb-ndsu" style="display:flex"><span class="lb-score bt-losing">67</span><span class="lb-sep">–</span><span class="lb-score bt-losing">92</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox"><div class="rbox-score">67–92</div></div>
+    <div class="rbox"><div class="rbox-score">67–92</div><div class="rbox-sub">Lost</div></div>
     <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$100</div></div>
   </div>
 </div>
@@ -900,11 +903,12 @@ body {
   <div class="card-topline"></div>
   <div class="tg-body">
     <div class="tg-row1"><span class="tg-seed">#3</span><span class="tg-team">Michigan St.</span><span class="tg-paid-inline fin-paid">$475</span></div>
-    <div class="tg-row2"><span class="spill won-p">Adv ✓</span></div>
+    <div class="tg-row2"><span class="spill won-p">Advanced</span></div>
     <div class="matchup-line tg-vs">Won 92–67 · Next vs <strong>Louisville</strong></div>
+    <div class="live-bar" id="lb-msu" style="display:flex"><span class="lb-score bt-winning">92</span><span class="lb-sep">–</span><span class="lb-score bt-winning">67</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox pct-hot"><div class="rbox-score">92–67</div></div>
+    <div class="rbox pct-hot"><div class="rbox-score">92–67</div><div class="rbox-sub">Won</div></div>
     <div class="tg-next"><div class="tg-nl">Next</div><div class="tg-nv">E8 · $340</div></div>
   </div>
 </div>
@@ -913,11 +917,12 @@ body {
   <div class="card-topline"></div>
   <div class="tg-body">
     <div class="tg-row1"><span class="tg-seed">#11</span><span class="tg-team">VCU</span><span class="tg-paid-inline fin-paid">$170</span></div>
-    <div class="tg-row2"><span class="spill won-p">Adv ✓</span></div>
+    <div class="tg-row2"><span class="spill won-p">Advanced</span></div>
     <div class="matchup-line tg-vs">Won 82–78 OT · Next vs <strong>Illinois</strong></div>
+    <div class="live-bar" id="lb-vcu" style="display:flex"><span class="lb-score bt-winning">82</span><span class="lb-sep">–</span><span class="lb-score bt-winning">78</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox pct-hot"><div class="rbox-score">82–78</div></div>
+    <div class="rbox pct-hot"><div class="rbox-score">82–78</div><div class="rbox-sub">Won</div></div>
     <div class="tg-next"><div class="tg-nl">Next</div><div class="tg-nv green">+$340 · S16</div></div>
   </div>
 </div>
@@ -926,11 +931,12 @@ body {
   <div class="card-topline"></div>
   <div class="tg-body">
     <div class="tg-row1"><span class="tg-seed">#8</span><span class="tg-team">Georgia</span><span class="tg-paid-inline fin-paid">$220</span></div>
-    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Eliminated</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(9) Saint Louis</strong></div>
+    <div class="live-bar" id="lb-georgia" style="display:flex"><span class="lb-score bt-losing">77</span><span class="lb-sep">–</span><span class="lb-score bt-losing">102</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox"><div class="rbox-score">77–102</div></div>
+    <div class="rbox"><div class="rbox-score">77–102</div><div class="rbox-sub">Lost</div></div>
     <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$220</div></div>
   </div>
 </div>
@@ -939,11 +945,12 @@ body {
   <div class="card-topline"></div>
   <div class="tg-body">
     <div class="tg-row1"><span class="tg-seed">#14</span><span class="tg-team">Kennesaw St.</span><span class="tg-paid-inline fin-paid">$180</span></div>
-    <div class="tg-row2"><span class="spill loss-p">Out</span></div>
+    <div class="tg-row2"><span class="spill loss-p">Eliminated</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(3) Gonzaga</strong></div>
+    <div class="live-bar" id="lb-kennesaw" style="display:flex"><span class="lb-score bt-losing">64</span><span class="lb-sep">–</span><span class="lb-score bt-losing">73</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox"><div class="rbox-score">64–73</div></div>
+    <div class="rbox"><div class="rbox-score">64–73</div><div class="rbox-sub">Lost</div></div>
     <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$180</div></div>
   </div>
 </div>
@@ -954,10 +961,10 @@ body {
     <div class="tg-row1"><span class="tg-seed">#12</span><span class="tg-team">Akron</span><span class="tg-paid-inline fin-paid">$280</span></div>
     <div class="tg-row2"><span class="spill loss-p">Out</span></div>
     <div class="matchup-line tg-vs">Lost to <strong>(5) Texas Tech</strong></div>
-    <div class="live-bar" id="lb-akron" style="display:flex"><span class="lb-score bt-losing">71</span><span class="lb-sep">–</span><span class="lb-score bt-winning">91</span><span class="lb-status lb-final">FINAL</span></div>
+    <div class="live-bar" id="lb-akron" style="display:flex"><span class="lb-score bt-losing">71</span><span class="lb-sep">–</span><span class="lb-score bt-losing">91</span><span class="lb-status lb-final">FINAL</span></div>
   </div>
   <div class="tg-foot">
-    <div class="rbox"><div class="rbox-score">71–91</div></div>
+    <div class="rbox"><div class="rbox-score">71–91</div><div class="rbox-sub">Lost</div></div>
     <div class="tg-next"><div class="tg-nl">Result</div><div class="tg-nv red">−$280</div></div>
   </div>
 </div>
@@ -1306,14 +1313,14 @@ function applyGameUpdate(tid, c1, c2, st) {
     pill.className = 'spill live-p';
     card.classList.remove('s-soon'); card.classList.add('s-live');
 
-    /* live score bar — color by higher score regardless of c1/c2 order */
+    /* live score bar — all numbers same color based on whether our team is winning */
     if (bar) {
       bar.style.display = 'flex';
-      var s1n = parseInt(sc1) || 0, s2n = parseInt(sc2) || 0;
+      var scoreClass = myScoreN > oppScoreN ? 'bt-winning' : myScoreN < oppScoreN ? 'bt-losing' : '';
       bar.innerHTML =
-        '<span class="lb-score ' + (s1n > s2n ? 'bt-winning' : s1n < s2n ? 'bt-losing' : '') + '">' + sc1 + '</span>' +
+        '<span class="lb-score ' + scoreClass + '">' + sc1 + '</span>' +
         '<span class="lb-sep">–</span>' +
-        '<span class="lb-score ' + (s2n > s1n ? 'bt-winning' : s2n < s1n ? 'bt-losing' : '') + '">' + sc2 + '</span>' +
+        '<span class="lb-score ' + scoreClass + '">' + sc2 + '</span>' +
         '<span class="lb-status lb-live">' + st.label + '</span>';
     }
 
@@ -1391,20 +1398,13 @@ function applyGameUpdate(tid, c1, c2, st) {
     if (rboxFin) {
       var isTop3final = ['arizona','virginia','florida'].indexOf(tid) > -1;
       if (won) {
-        var earnedAmt = isTop3final ? 0 : Math.ceil(POTS.r1 / BRACKET.r1Winners);
         rboxFin.className = 'rbox pct-hot';
-        rboxFin.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px 10px;';
-        rboxFin.innerHTML = 
-          '<div style="font-size:7px;font-weight:800;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">Earned</div>' +
-          '<div style="font-size:14px;font-weight:900;color:' + (earnedAmt > 0 ? '#34d399' : '#f87171') + ';letter-spacing:-0.3px;line-height:1">' + 
-          (earnedAmt > 0 ? '+$' : '$') + earnedAmt.toLocaleString() + '</div>';
+        rboxFin.style = '';
+        rboxFin.innerHTML = '<div class="rbox-score">' + myScore + '–' + oppScore + '</div><div class="rbox-sub">Won</div>';
       } else {
-        var lostAmt = {akron:280,arizona:2625,virginia:375,hofstra:140,ucf:115,florida:1550,missouri:220}[tid] || 0;
-        rboxFin.className = 'rbox pct-longshot';
-        rboxFin.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px 10px;';
-        rboxFin.innerHTML = 
-          '<div style="font-size:7px;font-weight:800;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">Lost</div>' +
-          '<div style="font-size:14px;font-weight:900;color:#f87171;letter-spacing:-0.3px;line-height:1">−$' + lostAmt.toLocaleString() + '</div>';
+        rboxFin.className = 'rbox';
+        rboxFin.style = '';
+        rboxFin.innerHTML = '<div class="rbox-score">' + myScore + '–' + oppScore + '</div><div class="rbox-sub">Lost</div>';
       }
     }
 
@@ -1414,7 +1414,7 @@ function applyGameUpdate(tid, c1, c2, st) {
       bar.innerHTML =
         '<span class="lb-score' + (won?' bt-winning':' bt-losing') + '">' + myScore + '</span>' +
         '<span class="lb-sep">–</span>' +
-        '<span class="lb-score' + (won?' bt-losing':' bt-winning') + '">' + oppScore + '</span>' +
+        '<span class="lb-score' + (won?' bt-winning':' bt-losing') + '">' + oppScore + '</span>' +
         '<span class="lb-status lb-final">FINAL</span>';
     }
 
@@ -1959,9 +1959,11 @@ function sortCards() {
 
   cards.sort(function(a, b) {
     var aPri = a.classList.contains('s-live') ? 0
-             : a.classList.contains('s-soon') ? 1 : 2;
+             : a.classList.contains('s-soon') ? 1
+             : a.classList.contains('s-won')  ? 2 : 3;
     var bPri = b.classList.contains('s-live') ? 0
-             : b.classList.contains('s-soon') ? 1 : 2;
+             : b.classList.contains('s-soon') ? 1
+             : b.classList.contains('s-won')  ? 2 : 3;
     if (aPri !== bPri) return aPri - bPri;
     var aTip = parseInt(a.getAttribute('data-tip') || '9999');
     var bTip = parseInt(b.getAttribute('data-tip') || '9999');
