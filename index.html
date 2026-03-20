@@ -363,9 +363,10 @@ letter-spacing: -0.2px;
 }
 
 /* remove bottom border on last row */
-.owner-cell:nth-child(10),
-.owner-cell:nth-child(11),
-.owner-cell:nth-child(12) { border-bottom: none; }
+/* remove right border on every 3rd cell */
+.owner-cell:nth-child(3n) { border-right: none; }
+/* remove bottom border on last row */
+.owner-cell:nth-last-child(-n+3) { border-bottom: none; }
 
 .oc-name {
 font-size: 11px;
@@ -776,27 +777,30 @@ border-top: 1px solid rgba(255,255,255,0.04);
 <!-- 1. Thu 4:05 PM — NDSU (LOSS) -->
 <div class="card bigdog s-loss" data-tid="ndsu" data-tip="245">
   <div class="card-topline"></div>
-  <div class="card-top">
-    <div class="team-block">
-      <div class="team-name"><span class="team-seed">#14</span>N. Dakota St.</div>
-      <div class="badge-row"><span class="region-badge">East</span></div>
-    </div>
-    <div class="spill loss-p">Eliminated</div>
-  </div>
-  <div class="card-mid">
-    <div class="matchup-line">Lost to <strong>(3) Michigan St.</strong></div>
-    <div class="rbox">
-      <div class="rbox-score">67–92</div>
-      <div class="rbox-sub">Final</div>
-    </div>
-  </div>
-  <div class="result-strip">
-    <div class="rs-paid">Paid <span>$100</span></div>
-    <div class="rs-money lost">−$100 lost</div>
-  </div>
   <div class="card-meta">
     <span class="cm-time">Thu 4:05 PM</span><span class="cm-sep">·</span>
     <span class="cm-info">TNT · Buffalo</span>
+    <span class="spill loss-p">Eliminated</span>
+  </div>
+  <div class="card-body">
+    <div class="card-left">
+      <div class="team-name"><span class="team-seed">#14</span>N. Dakota St.</div>
+      <div class="matchup-line">Lost to (3) Michigan St.</div>
+      <div class="badge-row"><span class="region-badge">East</span></div>
+    </div>
+    <div class="card-right">
+      <div class="card-fin">
+        <div class="fin-paid">$100</div>
+        <div class="fin-chunks">
+          <div class="fin-chunk" style="justify-content:flex-end">
+            <span class="fin-chunk-val" style="color:#ef4444">−$100</span>
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="rbox-score">67–92</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -804,101 +808,102 @@ border-top: 1px solid rgba(255,255,255,0.04);
 
 <div class="card chalk s-won" data-tid="msu" data-tip="245">
   <div class="card-topline"></div>
-  <div class="card-top">
-    <div class="team-block">
-      <div class="team-name"><span class="team-seed">#3</span>Michigan St.</div>
-      <div class="badge-row"><span class="region-badge">East</span></div>
-    </div>
-    <div class="spill won-p">R2 Sat 2:45</div>
-  </div>
-  <div class="card-mid">
-    <div class="matchup-line">Won → <strong>(6) Louisville</strong> · Sat 2:45 CBS</div>
-    <div class="rbox">
-      <div class="rbox-score">92–67</div>
-      <div class="rbox-sub">Won R1</div>
-    </div>
-  </div>
-  <div class="result-strip">
-    <div class="rs-paid">Paid <span>$475</span></div>
-    <div class="rs-info">
-      <div class="rs-chunk next-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">E8 · $340</div></div>
-      <div class="rs-chunk be-chunk"><div class="rsc-label">Break Even</div><div class="rsc-val">F4</div></div>
-    </div>
-  </div>
   <div class="card-meta">
     <span class="cm-time">Thu 4:05 PM</span><span class="cm-sep">·</span>
     <span class="cm-info">TNT · Buffalo</span>
-<div class="milestones">
-<div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div>
-<div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div>
-<div class="ms active"><div class="ms-l">E8</div><div class="ms-v">$340</div></div>
-<div class="ms be"><div class="ms-l">F4</div><div class="ms-v">$1,902</div><div class="ms-tag">Even</div></div>
-<div class="ms active"><div class="ms-l">Final</div><div class="ms-v">$1,087</div></div>
-<div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,445</div></div>
-</div>
+    <span class="spill won-p">R2 Sat 2:45</span>
+  </div>
+  <div class="card-body">
+    <div class="card-left">
+      <div class="team-name"><span class="team-seed">#3</span>Michigan St.</div>
+      <div class="matchup-line">Won → (6) Louisville · Sat 2:45</div>
+      <div class="badge-row"><span class="region-badge">East</span></div>
+    </div>
+    <div class="card-right">
+      <div class="card-fin">
+        <div class="fin-paid">$475</div>
+        <div class="fin-chunks">
+          <div class="fin-chunk fin-next">
+            <span class="fin-chunk-label">Next</span>
+            <span class="fin-chunk-val">$340</span>
+          </div>
+          <div class="fin-chunk fin-be">
+            <span class="fin-chunk-label">Break Even</span>
+            <span class="fin-chunk-val">F4</span>
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="rbox-score">92–67</div>
+      </div>
+    </div>
+  </div>
+<div class="milestones"><div class="ms locked"><div class="ms-l">R1</div><div class="ms-v">$0</div></div><div class="ms locked"><div class="ms-l">S16</div><div class="ms-v">$0</div></div><div class="ms active"><div class="ms-l">E8</div><div class="ms-v">$340</div></div><div class="ms be"><div class="ms-l">F4</div><div class="ms-v">$1,902</div><div class="ms-tag">Even</div></div><div class="ms active"><div class="ms-l">Final</div><div class="ms-v">$1,087</div></div><div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,445</div></div></div>
 </div>
 
 <!-- 3. Thu 6:50 PM — VCU (WIN, ADVANCING) --><div class="card coinflip s-won" data-tid="vcu" data-tip="410">
 
   <div class="card-topline"></div>
-  <div class="card-top">
-    <div class="team-block">
-      <div class="team-name"><span class="team-seed">#11</span>VCU</div>
-      <div class="badge-row"><span class="region-badge">South</span></div>
-    </div>
-    <div class="spill won-p">R2 Sat 7:50</div>
-  </div>
-  <div class="card-mid">
-    <div class="matchup-line">Won OT (−19 comeback!) → <strong>(3) Illinois</strong> · Sat 7:50 CBS</div>
-    <div class="rbox">
-      <div class="rbox-score">82–78</div>
-      <div class="rbox-sub">Won OT</div>
-    </div>
-  </div>
-  <div class="result-strip">
-    <div class="rs-paid">Paid <span>$170</span></div>
-    <div class="rs-info">
-      <div class="rs-chunk profit-chunk"><div class="rsc-label">Net so far</div><div class="rsc-val">+$170</div></div>
-      <div class="rs-chunk be-chunk"><div class="rsc-label">Next $</div><div class="rsc-val">S16 · $391</div></div>
-    </div>
-  </div>
   <div class="card-meta">
     <span class="cm-time">Thu 6:50 PM</span><span class="cm-sep">·</span>
     <span class="cm-info">TNT · Greenville</span>
-<div class="milestones">
-<div class="ms earned"><div class="ms-l">R1</div><div class="ms-v">$388</div><div class="ms-tag">✓ Paid</div></div>
-<div class="ms active"><div class="ms-l">S16</div><div class="ms-v">$391</div></div>
-<div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div>
-<div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,902</div></div>
-<div class="ms active"><div class="ms-l">Final</div><div class="ms-v">$1,087</div></div>
-<div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,445</div></div>
-</div>
+    <span class="spill won-p">R2 Sat 7:50</span>
+  </div>
+  <div class="card-body">
+    <div class="card-left">
+      <div class="team-name"><span class="team-seed">#11</span>VCU</div>
+      <div class="matchup-line">Won OT → (3) Illinois · Sat 7:50</div>
+      <div class="badge-row"><span class="region-badge">South</span></div>
+    </div>
+    <div class="card-right">
+      <div class="card-fin">
+        <div class="fin-paid">$170</div>
+        <div class="fin-chunks">
+          <div class="fin-chunk fin-next">
+            <span class="fin-chunk-label">Next</span>
+            <span class="fin-chunk-val">$391</span>
+          </div>
+          <div class="fin-chunk fin-be">
+            <span class="fin-chunk-label">Break Even</span>
+            <span class="fin-chunk-val">Done</span>
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="rbox-score">82–78</div>
+      </div>
+    </div>
+  </div>
+<div class="milestones"><div class="ms earned"><div class="ms-l">R1</div><div class="ms-v">$388</div><div class="ms-tag">✓ Paid</div></div><div class="ms active"><div class="ms-l">S16</div><div class="ms-v">$391</div></div><div class="ms locked"><div class="ms-l">E8</div><div class="ms-v">$0</div></div><div class="ms active"><div class="ms-l">F4</div><div class="ms-v">$1,902</div></div><div class="ms active"><div class="ms-l">Final</div><div class="ms-v">$1,087</div></div><div class="ms active"><div class="ms-l">Champ</div><div class="ms-v">$2,445</div></div></div>
 </div>
 
 <!-- 4. Thu 9:45 PM — GEORGIA (LOSS) --><div class="card coinflip s-loss" data-tid="georgia" data-tip="585">
 
   <div class="card-topline"></div>
-  <div class="card-top">
-    <div class="team-block">
-      <div class="team-name"><span class="team-seed">#8</span>Georgia</div>
-      <div class="badge-row"><span class="region-badge">Midwest</span></div>
-    </div>
-    <div class="spill loss-p">Eliminated</div>
-  </div>
-  <div class="card-mid">
-    <div class="matchup-line">Lost to <strong>(9) Saint Louis</strong> (blowout)</div>
-    <div class="rbox">
-      <div class="rbox-score">77–102</div>
-      <div class="rbox-sub">Final</div>
-    </div>
-  </div>
-  <div class="result-strip">
-    <div class="rs-paid">Paid <span>$220</span></div>
-    <div class="rs-money lost">−$220 lost</div>
-  </div>
   <div class="card-meta">
     <span class="cm-time">Thu 9:45 PM</span><span class="cm-sep">·</span>
     <span class="cm-info">CBS · Buffalo</span>
+    <span class="spill loss-p">Eliminated</span>
+  </div>
+  <div class="card-body">
+    <div class="card-left">
+      <div class="team-name"><span class="team-seed">#8</span>Georgia</div>
+      <div class="matchup-line">Lost to (9) Saint Louis</div>
+      <div class="badge-row"><span class="region-badge">Midwest</span></div>
+    </div>
+    <div class="card-right">
+      <div class="card-fin">
+        <div class="fin-paid">$220</div>
+        <div class="fin-chunks">
+          <div class="fin-chunk" style="justify-content:flex-end">
+            <span class="fin-chunk-val" style="color:#ef4444">−$220</span>
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="rbox-score">77–102</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -906,27 +911,30 @@ border-top: 1px solid rgba(255,255,255,0.04);
 
 <div class="card bigdog s-loss" data-tid="kennesaw" data-tip="600">
   <div class="card-topline"></div>
-  <div class="card-top">
-    <div class="team-block">
-      <div class="team-name"><span class="team-seed">#14</span>Kennesaw St.</div>
-      <div class="badge-row"><span class="region-badge">West</span></div>
-    </div>
-    <div class="spill loss-p">Eliminated</div>
-  </div>
-  <div class="card-mid">
-    <div class="matchup-line">Lost to <strong>(3) Gonzaga</strong> · down 5 late</div>
-    <div class="rbox">
-      <div class="rbox-score">64–73</div>
-      <div class="rbox-sub">Final</div>
-    </div>
-  </div>
-  <div class="result-strip">
-    <div class="rs-paid">Paid <span>$180</span></div>
-    <div class="rs-money lost">−$180 lost</div>
-  </div>
   <div class="card-meta">
     <span class="cm-time">Thu 10:00 PM</span><span class="cm-sep">·</span>
     <span class="cm-info">TBS · Portland</span>
+    <span class="spill loss-p">Eliminated</span>
+  </div>
+  <div class="card-body">
+    <div class="card-left">
+      <div class="team-name"><span class="team-seed">#14</span>Kennesaw St.</div>
+      <div class="matchup-line">Lost to (3) Gonzaga</div>
+      <div class="badge-row"><span class="region-badge">West</span></div>
+    </div>
+    <div class="card-right">
+      <div class="card-fin">
+        <div class="fin-paid">$180</div>
+        <div class="fin-chunks">
+          <div class="fin-chunk" style="justify-content:flex-end">
+            <span class="fin-chunk-val" style="color:#ef4444">−$180</span>
+          </div>
+        </div>
+      </div>
+      <div class="rbox">
+        <div class="rbox-score">64–73</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1772,24 +1780,21 @@ function renderIntelBox() {
   var tonightHTML = '';
 
   /* Build name lists */
-  var allPendingNames = pending.map(function(tid){
-    var cls = t[tid].top3 ? 'hi-purple' : 'hi-gold';
-    return '<span class="' + cls + '">' + t[tid].name + '</span>';
+  var pendingLowNames = pendingLow.map(function(tid){
+    return '<span class="hi-gold">' + t[tid].name + '</span>';
   });
   var wonLowNames = INTEL.fridayWon
     .filter(function(tid){ return t[tid] && !t[tid].top3; })
     .map(function(tid){ return '<span class="hi-green">' + t[tid].name + '</span>'; });
 
-  if (pending.length > 0) {
-    /* All playing teams win → we cash X */
-    var playingStr = allPendingNames.join(', ');
-    tonightHTML = playingStr + (pending.length > 1 ? ' all win' : ' wins') + ' tonight:' +
+  if (pendingLow.length > 0) {
+    /* Only low seeds generate R1 cash */
+    var playingStr = pendingLowNames.join(', ');
+    tonightHTML = playingStr + (pendingLow.length > 1 ? ' all win R1:' : ' wins R1:') +
       '<span class="intel-outcome">' +
         'We cash <span class="hi-green">+$' + Math.ceil(sweepEarnings).toLocaleString() + '</span> (est. $' + Math.ceil(projR1Share).toLocaleString() + '/team · R1 eligible only)' +
       '</span>' +
-      '<span class="intel-outcome-sub">' +
-        'Still down $' + Math.ceil(Math.max(0, sweepDown)).toLocaleString() +
-      '</span>';
+'';
     if (wonLowNames.length > 0) {
       tonightHTML = wonLowNames.join(', ') + ' already through · ' + tonightHTML;
     }
