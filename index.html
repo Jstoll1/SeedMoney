@@ -777,6 +777,8 @@ body {
 .bt-status.bt-final-tag { color:#1e2e44; }
 .bt-status.bt-time-tag { color:#2d3e58; }
 
+
+
 </style>
 </head>
 <body>
@@ -1192,6 +1194,10 @@ body {
   </div>
 </div>
 
+
+  <div class="sp-pot">
+    /div>
+
 <!-- SCENARIO CALCULATOR -->
 <div class="scenario-wrap">
   <div class="sc-head">
@@ -1232,20 +1238,7 @@ body {
 </div>
 
 <!-- FEEDBACK BOX -->
-<div class="feedback-wrap">
-  <div class="feedback-head">
-    <span>💬</span>
-    <span class="feedback-title">Drop feedback for Curt</span>
-  </div>
-  <div class="feedback-body">
-    <textarea class="fb-input" id="fb-msg" rows="2" placeholder="Thoughts, trash talk, complaints about Arizona's price tag..."></textarea>
-    <div class="fb-row">
-      <input class="fb-name" id="fb-name" type="text" placeholder="Your name (optional)">
-      <button class="fb-btn" id="fb-send" onclick="sendFeedback()">Send</button>
-    </div>
-    <div class="fb-status" id="fb-status"></div>
-  </div>
-</div>
+
 
 <!-- LEGEND -->
 <div class="legend">
@@ -2029,29 +2022,44 @@ function scCalc() {
   if (!tid) { res.innerHTML = '<div class="sc-empty">Pick a team to model their payout path</div>'; return; }
   var t  = SC[tid];
   var ti = ROUNDS.indexOf(scRound);
-  var PAY   = t.top3 ? {R1:0,S16:0,E8:340,F4:1901,Finals:1086,Champ:2444} : {R1:679,S16:625,E8:0,F4:1901,Finals:1086,Champ:2444};
-  var APPROX = t.top3 ? {} : {R1:true,S16:true};
+
+  /* Use same dynamic pot splits as main payout engine */
+  var r1v  = Math.ceil(POTS.r1  / Math.max(BRACKET.r1Winners, 1));
+  var s16v = Math.ceil(POTS.s16 / 16);
+  var e8v  = Math.ceil(POTS.e8  / 8);
+  var f4v  = Math.ceil(POTS.f4);
+  var finv = Math.ceil(POTS.finals);
+  var chv  = Math.ceil(POTS.champ);
+
+  var PAY = t.top3
+    ? {R1:0, S16:0, E8:e8v, F4:f4v, Final:finv, Champ:chv}
+    : {R1:r1v, S16:s16v, E8:0, F4:f4v, Final:finv, Champ:chv};
+
+  var APPROX = t.top3 ? {E8:true} : {R1:true, S16:true};
+
   var total=0, rows='';
   for (var i=0; i<=ti; i++) {
-    var r=ROUNDS[i]; var amt=PAY[r]; var isTgt=(i===ti); var isZ=(amt===0); var ap=!!APPROX[r];
+    var r=ROUNDS[i]; var amt=PAY[r]||0; var isTgt=(i===ti); var isZ=(amt===0); var ap=!!APPROX[r];
     total+=amt;
     var cls = isTgt?'sc-target':isZ?'sc-locked':'sc-earned';
-    var icon = isTgt?'◉':isZ?'—':'✓';
-    var disp = isZ?'$0':(ap?'~':'')+'$'+amt.toLocaleString();
+    var icon = isTgt?'&#9689;':isZ?'&#8212;':'&#10003;';
+    var disp = isZ ? '$0' : (ap?'~':'') + '$' + amt.toLocaleString();
     rows+='<div class="sc-row '+cls+'"><div class="sc-ico">'+icon+'</div><div class="sc-lbl2">'+RLABELS[r]+'</div><div class="sc-amt">'+(amt>0?'+':'')+disp+'</div></div>';
   }
+
   var net=total-t.paid; var profit=net>=0;
-  var hasAp=ROUNDS.slice(0,ti+1).some(function(k){return APPROX[k]&&PAY[k]>0;});
+  var hasAp=ROUNDS.slice(0,ti+1).some(function(k){ return APPROX[k] && (PAY[k]||0)>0; });
   var apStr=hasAp?'~':'';
-  var netStr=(profit?'+':'−')+apStr+'$'+Math.abs(net).toLocaleString();
+  var netStr=(profit?'+':'-')+apStr+'$'+Math.abs(net).toLocaleString();
   var notes='';
-  if (t.top3 && ti<ROUNDS.indexOf('E8')) notes+='<div class="sc-note"><div class="sc-note-t">ℹ Payout Structure</div><div class="sc-note-b">'+t.n+' doesn\'t collect at R1 or S16 — first payout is Elite 8 ($340).</div></div>';
-  if (t.upset) notes+='<div class="sc-note"><div class="sc-note-t">⚡ Upset Pot</div><div class="sc-note-b">'+t.n+' winning R1 puts them in contention for the Biggest Upset pot ($1,086, not included above).</div></div>';
+  if (t.top3 && ti<ROUNDS.indexOf('E8')) notes+='<div class="sc-note"><div class="sc-note-t">Info Payout Structure</div><div class="sc-note-b">'+t.n+' does not collect at R1 or S16 - first payout is Elite 8 (~$'+e8v+').</div></div>';
+  if (t.upset) notes+='<div class="sc-note"><div class="sc-note-t">Upset Pot</div><div class="sc-note-b">'+t.n+' winning R1 puts them in contention for the Biggest Upset pot ($1,087, not included above).</div></div>';
+
   res.innerHTML=
     '<div>'+rows+'</div>'
     +'<div class="sc-totals">'
     +'<div class="sc-tot-row"><div class="sc-tot-lbl">Total Collected</div><div class="sc-tot-val">'+apStr+'$'+total.toLocaleString()+'</div></div>'
-    +'<div class="sc-tot-row"><div class="sc-tot-lbl">Paid in Calcutta</div><div class="sc-tot-val neg">−$'+t.paid.toLocaleString()+'</div></div>'
+    +'<div class="sc-tot-row"><div class="sc-tot-lbl">Paid in Calcutta</div><div class="sc-tot-val neg">-$'+t.paid.toLocaleString()+'</div></div>'
     +'<div class="sc-hr"></div>'
     +'<div class="sc-tot-row"><div class="sc-tot-lbl">Net Return</div><div class="sc-tot-val '+(profit?'pos':'neg')+'">'+netStr+'</div></div>'
     +'</div>'+notes;
@@ -2206,36 +2214,72 @@ function renderBracketTicker(events) {
       '</div>';
   });
 
-  /* if ESPN hasn't returned all games yet, pad with known scheduled games */
-  if (total < 14) {
-    var KNOWN_FRI = [
-      {s1:7,n1:'Kentucky',   s2:10,n2:'Santa Clara',    tip:'12:15 PM'},
-      {s1:2,n1:'Iowa State', s2:15,n2:'Tennessee St',   tip:'2:50 PM'},
-      {s1:8,n1:'Villanova',  s2:9, n2:'Utah State',     tip:'4:10 PM'},
-      {s1:6,n1:'Tennessee',  s2:11,n2:'Miami (OH)',      tip:'4:25 PM'},
-      {s1:8,n1:'Clemson',    s2:9, n2:'Iowa',            tip:'6:50 PM'},
-      {s1:5,n1:"St. John's", s2:12,n2:'Northern Iowa',  tip:'7:10 PM'},
-      {s1:2,n1:'Purdue',     s2:15,n2:'Queens',          tip:'7:35 PM'},
-      {s1:4,n1:'Kansas',     s2:13,n2:'Cal Baptist',     tip:'9:45 PM'},
-      {s1:2,n1:'UConn',      s2:15,n2:'Furman',          tip:'10:00 PM'},
-    ];
-    /* only add ones not already in html */
-    KNOWN_FRI.forEach(function(g) {
-      if (html.indexOf(g.n1) === -1 && html.indexOf(g.n2) === -1) {
-        total++;
+  /* Complete hardcoded R1 schedule — all non-our games.
+     ESPN API fills these in live; this ensures nothing is missing. */
+  var ALL_NON_OUR = [
+    /* ── THURSDAY CONFIRMED ── */
+    {s1:1, n1:'Duke',        s2:16,n2:'Siena',         tip:'Thu Final',  w1:true,  sc:'71-65'},
+    {s1:9, n1:'TCU',         s2:8, n2:'Ohio State',     tip:'Thu Final',  w1:true,  sc:'66-64'},
+    {s1:6, n1:'Louisville',  s2:11,n2:'S. Florida',     tip:'Thu Final',  w1:true,  sc:'83-79'},
+    {s1:12,n1:'High Point',  s2:5, n2:'Wisconsin',      tip:'Thu Final',  w1:true,  sc:'83-82'},
+    {s1:3, n1:'Illinois',    s2:14,n2:'Penn',            tip:'Thu Final',  w1:true,  sc:'105-70'},
+    {s1:10,n1:'Texas A&M',   s2:7, n2:"St. Mary's",     tip:'Thu Final',  w1:true,  sc:'63-50'},
+    {s1:1, n1:'Michigan',    s2:16,n2:'Howard',          tip:'Thu Final',  w1:true,  sc:'101-80'},
+    {s1:11,n1:'Texas',       s2:6, n2:'BYU',             tip:'Thu Final',  w1:true,  sc:'79-71'},
+    {s1:5, n1:'Vanderbilt',  s2:12,n2:'McNeese',         tip:'Thu Final',  w1:true,  sc:'78-68'},
+    {s1:4, n1:'Nebraska',    s2:13,n2:'Troy',             tip:'Thu Final',  w1:true,  sc:'76-47'},
+    {s1:4, n1:'Arkansas',    s2:13,n2:"Hawai'i",          tip:'Thu Final',  w1:true,  sc:'97-78'},
+    {s1:3, n1:'Gonzaga',     s2:14,n2:'Kennesaw St.',    tip:'Thu Final',  w1:true,  sc:'73-64'},
+    {s1:9, n1:'Saint Louis', s2:8, n2:'Georgia',          tip:'Thu Final',  w1:true,  sc:'102-77'},
+    {s1:2, n1:'Houston',     s2:15,n2:'Idaho',            tip:'Thu Final',  w1:true,  sc:'78-47'},
+    /* ── FRIDAY SCHEDULED (non-our) ── */
+    {s1:7, n1:'Kentucky',    s2:10,n2:'Santa Clara',     tip:'12:15 PM'},
+    {s1:2, n1:'Iowa State',  s2:15,n2:'Tennessee St.',   tip:'2:50 PM'},
+    {s1:8, n1:'Villanova',   s2:9, n2:'Utah State',      tip:'4:10 PM'},
+    {s1:6, n1:'Tennessee',   s2:11,n2:'Miami (OH)',       tip:'4:25 PM'},
+    {s1:8, n1:'Clemson',     s2:9, n2:'Iowa',             tip:'6:50 PM'},
+    {s1:5, n1:"St. John's",  s2:12,n2:'Northern Iowa',   tip:'7:10 PM'},
+    {s1:2, n1:'Purdue',      s2:15,n2:'Queens',           tip:'7:35 PM'},
+    {s1:4, n1:'Kansas',      s2:13,n2:'Cal Baptist',      tip:'9:45 PM'},
+    {s1:2, n1:'UConn',       s2:15,n2:'Furman',           tip:'10:00 PM'},
+  ];
+
+  /* Add any hardcoded games not already covered by ESPN live data */
+  ALL_NON_OUR.forEach(function(g) {
+    if (html.indexOf(g.n1) === -1 && html.indexOf(g.n2) === -1) {
+      total++;
+      var statusStr, gameClass = 'bt-game';
+      if (g.sc) {
+        /* confirmed final */
+        if (g.w1 === true) completed++;
+        var pts = g.sc.split('-');
+        var sc1 = pts[0], sc2 = pts[1];
+        statusStr = '<div class="bt-status bt-final-tag">Final</div>';
+        gameClass += '';
+        html +=
+          '<div class="' + gameClass + '">' +
+            '<div class="bt-teams">' +
+              '<div class="bt-team"><span class="bt-seed">' + g.s1 + '</span>' +
+                '<span class="bt-name' + (g.w1?' bt-winner':'') + '">' + g.n1 + '</span>' +
+                '<span class="bt-score' + (g.w1?' bt-winning':' bt-losing') + '">' + sc1 + '</span></div>' +
+              '<div class="bt-team"><span class="bt-seed">' + g.s2 + '</span>' +
+                '<span class="bt-name' + (!g.w1?' bt-winner':'') + '">' + g.n2 + '</span>' +
+                '<span class="bt-score' + (!g.w1?' bt-winning':' bt-losing') + '">' + sc2 + '</span></div>' +
+            '</div>' + statusStr + '</div>';
+      } else {
+        /* scheduled */
+        statusStr = '<div class="bt-status bt-time-tag">' + g.tip + ' ET</div>';
         html +=
           '<div class="bt-game">' +
             '<div class="bt-teams">' +
               '<div class="bt-team"><span class="bt-seed">' + g.s1 + '</span><span class="bt-name">' + g.n1 + '</span></div>' +
               '<div class="bt-team"><span class="bt-seed">' + g.s2 + '</span><span class="bt-name">' + g.n2 + '</span></div>' +
-            '</div>' +
-            '<div class="bt-status bt-time-tag">' + g.tip + ' ET</div>' +
-          '</div>';
+            '</div>' + statusStr + '</div>';
       }
-    });
-  }
+    }
+  });
 
-  grid.innerHTML = html || '<div style="padding:12px;color:#2d3e58;font-size:10px;text-align:center">Loading games...</div>';
+  grid.innerHTML = html || '<div style="padding:12px;color:#2d3e58;font-size:10px;text-align:center">Loading...</div>';
   counter.textContent = completed + '/' + total + ' final';
 }
 
@@ -2245,6 +2289,11 @@ processEvents = function(events) {
   _origProcessEvents(events);
   renderBracketTicker(events);
 };
+
+
+
+
+
 
 </script>
 
@@ -2290,5 +2339,20 @@ processEvents = function(events) {
   <div class="rules-footer">Total pot: $27,160 · Team Curt buy-in: $6,450 (24%)</div>
 </div>
 
+
+<div class="feedback-wrap">
+  <div class="feedback-head">
+    <span>💬</span>
+    <span class="feedback-title">Send Curt a message</span>
+  </div>
+  <div class="feedback-body">
+    <input class="fb-input" id="fb-name" type="text" placeholder="Your name (optional)" autocomplete="off" />
+    <textarea class="fb-input" id="fb-msg" rows="3" placeholder="Trash talk, complaints, bug reports... all welcome"></textarea>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <span class="fb-status" id="fb-status"></span>
+      <button class="fb-btn" onclick="fbSend()">Send →</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
