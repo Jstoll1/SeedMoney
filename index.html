@@ -728,6 +728,7 @@ body {
   min-width:0;
 }
 .bt-game:nth-child(3n) { border-right:none; }
+.bt-game:empty { padding:0; border:none; }
 .bt-game.bt-live { background:rgba(240,180,41,0.04); }
 .bt-game.bt-ours { background:rgba(37,99,235,0.05); border-bottom-color:rgba(37,99,235,0.15); }
 .bt-teams {
@@ -768,6 +769,13 @@ body {
 }
 .bt-score.bt-winning, .lb-score.bt-winning { color:#10b981; }
 .bt-score.bt-losing,  .lb-score.bt-losing  { color:#ef4444; }
+/* bracket grid: white scores, no green/red */
+#bt-grid .bt-score            { color:rgba(255,255,255,0.35); }
+#bt-grid .bt-score.bt-winning { color:#ffffff !important; }
+#bt-grid .bt-score.bt-losing  { color:rgba(255,255,255,0.3) !important; }
+/* upset badges */
+.bt-upset-live  { display:inline-block; font-size:6.5px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; padding:1px 5px; border-radius:3px; background:rgba(251,146,60,0.18); color:#fb923c; margin-left:3px; vertical-align:middle; }
+.bt-upset-final { display:inline-block; font-size:6.5px; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; padding:1px 5px; border-radius:3px; background:rgba(251,146,60,0.12); color:#f97316; margin-left:3px; vertical-align:middle; }
 .bt-status {
   font-size:7px;
   font-weight:700;
@@ -1972,6 +1980,46 @@ function sortCards() {
 
   cards.forEach(function(card) { container.appendChild(card); });
   addCardDividers();
+  centerPartialRows();
+}
+
+function centerPartialRows() {
+  var container = document.getElementById('cards-container');
+  if (!container) return;
+  /* remove leftover empty wrappers from previous run */
+  container.querySelectorAll('.partial-row-wrap').forEach(function(w){ w.remove(); });
+  /* reset grid-column overrides */
+  container.querySelectorAll('.card').forEach(function(c){ c.style.gridColumn = ''; c.style.width = ''; });
+  /* group cards by section (split on dividers) */
+  var groups = [], cur = [];
+  Array.prototype.forEach.call(container.children, function(el) {
+    if (el.classList.contains('dynamic-divider')) {
+      if (cur.length) { groups.push(cur); cur = []; }
+    } else if (el.classList.contains('card')) {
+      cur.push(el);
+    }
+  });
+  if (cur.length) groups.push(cur);
+  /* center partial last rows */
+  var colW = 'calc((100% - 10px) / 3)';
+  groups.forEach(function(g) {
+    var rem = g.length % 3;
+    if (rem === 1) {
+      /* lone card → middle column */
+      g[g.length - 1].style.gridColumn = '2';
+    } else if (rem === 2) {
+      /* two cards → wrap in centered flex row spanning full width */
+      var wrap = document.createElement('div');
+      wrap.className = 'partial-row-wrap';
+      wrap.style.cssText = 'grid-column:1/-1; display:flex; justify-content:center; gap:5px;';
+      var c1 = g[g.length - 2], c2 = g[g.length - 1];
+      c1.style.width = colW;
+      c2.style.width = colW;
+      c1.parentNode.insertBefore(wrap, c1);
+      wrap.appendChild(c1);
+      wrap.appendChild(c2);
+    }
+  });
 }
 
 function addCardDividers() {
@@ -2013,6 +2061,13 @@ var OUR_TEAM_NAMES = [
 
 function isOurTeam(name) {
   var n = (name || '').toLowerCase();
+  /* Guard known non-our teams whose names contain our team name substrings */
+  if (/^s\.?\s*florida/.test(n) || /^south\s*florida/.test(n)) return false;
+  if (/^west\s*virginia/.test(n)) return false;
+  if (/^virginia\s*(tech|military|union)/.test(n)) return false;
+  if (/^georgia\s*(tech|state|southern)/.test(n)) return false;
+  if (/^arizona\s*state/.test(n)) return false;
+  if (/^missouri\s*state/.test(n)) return false;
   return OUR_TEAM_NAMES.some(function(t){ return n === t || n.includes(t); });
 }
 
@@ -2065,9 +2120,13 @@ function renderBracketTicker(events) {
     var n2 = (t2.team.shortDisplayName || t2.team.abbreviation || '?');
     var seed1 = (t1.curatedRank && t1.curatedRank.current) || t1.seed || '';
     var seed2 = (t2.curatedRank && t2.curatedRank.current) || t2.seed || '';
+    var sd1 = parseInt(seed1) || 99, sd2 = parseInt(seed2) || 99;
     var gameClass = 'bt-game' + (st.type === 'live' ? ' bt-live' : '');
     var n1cls = 'bt-name' + (st.type === 'final' && s1 > s2 ? ' bt-winner' : '');
     var n2cls = 'bt-name' + (st.type === 'final' && s2 > s1 ? ' bt-winner' : '');
+
+    /* upset detection: higher seed number winning = upset */
+    var isUpset = (s1 > s2 && sd1 > sd2) || (s2 > s1 && sd2 > sd1);
 
     /* score display */
     var sc1 = '', sc2 = '';
@@ -2079,9 +2138,11 @@ function renderBracketTicker(events) {
     /* status line */
     var statusStr = '';
     if (st.type === 'live') {
-      statusStr = '<div class="bt-status bt-live-tag">⚡ ' + st.label + '</div>';
+      var upsetTag = isUpset ? '<span class="bt-upset-live">🔥 Upset Watch</span>' : '';
+      statusStr = '<div class="bt-status bt-live-tag">⚡ ' + st.label + upsetTag + '</div>';
     } else if (st.type === 'final') {
-      statusStr = '<div class="bt-status bt-final-tag">Final</div>';
+      var upsetTag = isUpset ? '<span class="bt-upset-final">UPSET</span>' : '';
+      statusStr = '<div class="bt-status bt-final-tag">Final' + upsetTag + '</div>';
     } else {
       /* scheduled — show tip time in ET */
       var tipTime = '';
@@ -2142,7 +2203,9 @@ function renderBracketTicker(events) {
         if (g.w1 === true) completed++;
         var pts = g.sc.split('-');
         var sc1 = pts[0], sc2 = pts[1];
-        statusStr = '<div class="bt-status bt-final-tag">Final</div>';
+        var isUpsetFb = (g.w1 === true && g.s1 > g.s2) || (g.w1 === false && g.s2 > g.s1);
+        var upsetTagFb = isUpsetFb ? '<span class="bt-upset-final">UPSET</span>' : '';
+        statusStr = '<div class="bt-status bt-final-tag">Final' + upsetTagFb + '</div>';
         gameClass += '';
         html +=
           '<div class="' + gameClass + '">' +
@@ -2168,14 +2231,34 @@ function renderBracketTicker(events) {
   });
 
   grid.innerHTML = html || '<div style="padding:12px;color:#2d3e58;font-size:10px;text-align:center">Loading...</div>';
+
+  /* Fix the last row when it's incomplete so there are no dangling borders or lonely cells. */
+  var allCells = grid.querySelectorAll('.bt-game');
+  var nCells = allCells.length;
+  var rem = nCells % 3;
+  if (rem === 1) {
+    /* One lone cell in last row: center it in column 2 */
+    allCells[nCells - 1].style.gridColumn = '2';
+    allCells[nCells - 1].style.borderRight = 'none';
+  } else if (rem === 2) {
+    /* Two cells in last row: remove the dangling right border from the second one */
+    allCells[nCells - 1].style.borderRight = 'none';
+  }
+
   counter.textContent = completed + '/' + total + ' final';
 }
 
-/* Hook renderBracketTicker into the existing fetch pipeline */
+/* Hook renderBracketTicker into the existing fetch pipeline.
+   Accumulate events from both date fetches so the grid always
+   shows the full combined set — not just whichever date resolved last. */
+var _allBracketEvents = {};   /* keyed by event id to avoid duplicates */
 var _origProcessEvents = processEvents;
 processEvents = function(events) {
   _origProcessEvents(events);
-  renderBracketTicker(events);
+  events.forEach(function(ev) {
+    if (ev.id) _allBracketEvents[ev.id] = ev;
+  });
+  renderBracketTicker(Object.keys(_allBracketEvents).map(function(k){ return _allBracketEvents[k]; }));
 };
 
 
