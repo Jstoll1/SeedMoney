@@ -144,30 +144,73 @@ padding:1px 5px; border-radius:3px;
 text-transform:uppercase; letter-spacing:0.5px;
 }
 
-/* right column — horizontal: [fin stack | rbox] */
+/* right column — vertical: paid on top, win% below */
 .card-right {
 display:flex;
-flex-direction:row;
-align-items:center;
-gap:8px;
+flex-direction:column;
+align-items:flex-end;
+gap:5px;
 flex-shrink:0;
 }
 
 /* win odds / score box */
+/* rbox — win% colors by threshold */
 .rbox {
-background:rgba(0,0,0,0.4);
-border:1.5px solid var(–c);
 border-radius:7px;
 padding:6px 8px 5px;
 text-align:center;
 min-width:48px;
 max-width:54px;
-box-shadow:0 0 10px var(–cg);
 flex-shrink:0;
+transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
-.rbox-main  { color:var(–c); font-size:16px; font-weight:900; letter-spacing:-0.3px; line-height:1; }
-.rbox-sup   { font-size:8px; font-weight:800; vertical-align:super; opacity:0.7; }
-.rbox-sub   { color:var(–c); font-size:6px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; opacity:0.4; margin-top:2px; }
+/* default (pre-game): uses card theme color */
+.rbox.pct-default {
+background:rgba(0,0,0,0.4);
+border:1.5px solid var(–c);
+box-shadow:0 0 10px var(–cg);
+}
+/* ≥75%: strong green — clear favorite */
+.rbox.pct-hot {
+background:rgba(16,185,129,0.13);
+border:1.5px solid rgba(16,185,129,0.6);
+box-shadow:0 0 14px rgba(16,185,129,0.25);
+}
+/* 55–74%: mild green — leaning */
+.rbox.pct-good {
+background:rgba(16,185,129,0.07);
+border:1.5px solid rgba(16,185,129,0.35);
+box-shadow:0 0 8px rgba(16,185,129,0.15);
+}
+/* 45–54%: amber — tossup */
+.rbox.pct-even {
+background:rgba(240,180,41,0.1);
+border:1.5px solid rgba(240,180,41,0.45);
+box-shadow:0 0 10px rgba(240,180,41,0.2);
+}
+/* 25–44%: orange — underdog */
+.rbox.pct-dog {
+background:rgba(249,115,22,0.1);
+border:1.5px solid rgba(249,115,22,0.45);
+box-shadow:0 0 10px rgba(249,115,22,0.2);
+}
+/* <25%: red — big underdog */
+.rbox.pct-longshot {
+background:rgba(239,68,68,0.1);
+border:1.5px solid rgba(239,68,68,0.5);
+box-shadow:0 0 12px rgba(239,68,68,0.2);
+}
+.rbox-main {
+font-size:16px; font-weight:900; letter-spacing:-0.3px; line-height:1;
+}
+.rbox.pct-default  .rbox-main { color:var(–c); }
+.rbox.pct-hot      .rbox-main { color:#34d399; }
+.rbox.pct-good     .rbox-main { color:#6ee7b7; }
+.rbox.pct-even     .rbox-main { color:#fbbf24; }
+.rbox.pct-dog      .rbox-main { color:#fb923c; }
+.rbox.pct-longshot .rbox-main { color:#f87171; }
+.rbox-sup   { font-size:8px; font-weight:800; vertical-align:super; opacity:0.8; }
+.rbox-sub   { font-size:6px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; opacity:0.45; margin-top:2px; }
 .rbox-score { font-size:12px; font-weight:900; color:var(–c); line-height:1.2; white-space:nowrap; }
 
 /* paid + financial stack — left of rbox */
@@ -766,6 +809,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">East</span></div>
     </div>
     <div class="card-right">
+      <div class="rbox">
+        <div class="rbox-score">67–92</div>
       <div class="card-fin">
         <div class="fin-paid">$100</div>
         <div class="fin-chunks">
@@ -774,9 +819,7 @@ border-top: 1px solid rgba(255,255,255,0.04);
           </div>
         </div>
       </div>
-      <div class="rbox">
-        <div class="rbox-score">67–92</div>
-      </div>
+    </div>
     </div>
   </div>
 </div>
@@ -786,32 +829,20 @@ border-top: 1px solid rgba(255,255,255,0.04);
 <div class="card chalk s-won" data-tid="msu" data-tip="245">
   <div class="card-topline"></div>
   <div class="card-meta">
-    <span class="cm-time">Thu 4:05 PM</span><span class="cm-sep">·</span>
-    <span class="cm-info">TNT · Buffalo</span>
-    <span class="spill won-p">R2 Sat 2:45</span>
+    <span class="cm-time">East</span>
+    <span class="spill won-p">Advanced ✓</span>
   </div>
   <div class="card-body">
     <div class="card-left">
       <div class="team-name"><span class="team-seed">#3</span>Michigan St.</div>
-      <div class="matchup-line">Won → (6) Louisville · Sat 2:45</div>
-      <div class="badge-row"><span class="region-badge">East</span></div>
+      <div class="matchup-line">Won <strong>92–67 vs NDSU</strong> · Next vs <strong>Louisville</strong></div>
+      <div class="matchup-line" style="margin-top:2px;font-size:10px;color:#2a7a5a">Sat 2:45 PM · CBS</div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$475</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">$340</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">F4</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox">
-        <div class="rbox-score">92–67</div>
+      <div class="fin-paid">$475</div>
+      <div class="rbox pct-hot" id="rbox-msu" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px 10px;">
+        <div style="font-size:7px;font-weight:800;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">Earned</div>
+        <div style="font-size:14px;font-weight:900;color:#f87171;letter-spacing:-0.3px;line-height:1">$0</div>
       </div>
     </div>
   </div>
@@ -822,32 +853,20 @@ border-top: 1px solid rgba(255,255,255,0.04);
 
   <div class="card-topline"></div>
   <div class="card-meta">
-    <span class="cm-time">Thu 6:50 PM</span><span class="cm-sep">·</span>
-    <span class="cm-info">TNT · Greenville</span>
-    <span class="spill won-p">R2 Sat 7:50</span>
+    <span class="cm-time">South</span>
+    <span class="spill won-p">Advanced ✓</span>
   </div>
   <div class="card-body">
     <div class="card-left">
       <div class="team-name"><span class="team-seed">#11</span>VCU</div>
-      <div class="matchup-line">Won OT → (3) Illinois · Sat 7:50</div>
-      <div class="badge-row"><span class="region-badge">South</span></div>
+      <div class="matchup-line">Won <strong>82–78 OT vs UNC</strong> · Next vs <strong>Illinois</strong></div>
+      <div class="matchup-line" style="margin-top:2px;font-size:10px;color:#2a7a5a">Sat 7:50 PM · CBS</div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$170</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">$391</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">Done</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox">
-        <div class="rbox-score">82–78</div>
+      <div class="fin-paid">$170</div>
+      <div class="rbox pct-hot" id="rbox-vcu" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px 10px;">
+        <div style="font-size:7px;font-weight:800;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">Earned</div>
+        <div style="font-size:14px;font-weight:900;color:#34d399;letter-spacing:-0.3px;line-height:1">+$340</div>
       </div>
     </div>
   </div>
@@ -869,6 +888,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">Midwest</span></div>
     </div>
     <div class="card-right">
+      <div class="rbox">
+        <div class="rbox-score">77–102</div>
       <div class="card-fin">
         <div class="fin-paid">$220</div>
         <div class="fin-chunks">
@@ -877,9 +898,7 @@ border-top: 1px solid rgba(255,255,255,0.04);
           </div>
         </div>
       </div>
-      <div class="rbox">
-        <div class="rbox-score">77–102</div>
-      </div>
+    </div>
     </div>
   </div>
 </div>
@@ -900,6 +919,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">West</span></div>
     </div>
     <div class="card-right">
+      <div class="rbox">
+        <div class="rbox-score">64–73</div>
       <div class="card-fin">
         <div class="fin-paid">$180</div>
         <div class="fin-chunks">
@@ -908,9 +929,7 @@ border-top: 1px solid rgba(255,255,255,0.04);
           </div>
         </div>
       </div>
-      <div class="rbox">
-        <div class="rbox-score">64–73</div>
-      </div>
+    </div>
     </div>
   </div>
 </div>
@@ -932,20 +951,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">Midwest</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$280</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">R1 · $388</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">R1 win</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-akron">
+      <div class="fin-paid">$280</div>
+      <div class="rbox pct-dog" id="rbox-akron">
         <div class="rbox-main">27<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -968,20 +975,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">West</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$2,625</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">E8 · $340</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">Final</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-arizona">
+      <div class="fin-paid">$2,625</div>
+      <div class="rbox pct-hot" id="rbox-arizona">
         <div class="rbox-main">99<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -1004,20 +999,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">Midwest</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$375</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">E8 · $340</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">F4</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-virginia">
+      <div class="fin-paid">$375</div>
+      <div class="rbox pct-hot" id="rbox-virginia">
         <div class="rbox-main">95<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -1040,20 +1023,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">Midwest</span><span class="upset-badge">Upset?</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$140</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">R1 · $388</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">R1 win</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-hofstra">
+      <div class="fin-paid">$140</div>
+      <div class="rbox pct-longshot" id="rbox-hofstra">
         <div class="rbox-main">15<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -1076,20 +1047,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">East</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$115</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">R1 · $388</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">R1 win</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-ucf">
+      <div class="fin-paid">$115</div>
+      <div class="rbox pct-dog" id="rbox-ucf">
         <div class="rbox-main">35<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -1112,20 +1071,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">South</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$1,550</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">E8 · $340</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">F4</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-florida">
+      <div class="fin-paid">$1,550</div>
+      <div class="rbox pct-hot" id="rbox-florida">
         <div class="rbox-main">99<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -1148,20 +1095,8 @@ border-top: 1px solid rgba(255,255,255,0.04);
       <div class="badge-row"><span class="region-badge">West</span></div>
     </div>
     <div class="card-right">
-      <div class="card-fin">
-        <div class="fin-paid">$220</div>
-        <div class="fin-chunks">
-          <div class="fin-chunk fin-next">
-            <span class="fin-chunk-label">Next</span>
-            <span class="fin-chunk-val">R1 · $388</span>
-          </div>
-          <div class="fin-chunk fin-be">
-            <span class="fin-chunk-label">Break Even</span>
-            <span class="fin-chunk-val">R1 win</span>
-          </div>
-        </div>
-      </div>
-      <div class="rbox" id="rbox-missouri">
+      <div class="fin-paid">$220</div>
+      <div class="rbox pct-even" id="rbox-missouri">
         <div class="rbox-main">45<span class="rbox-sup">%</span></div>
       </div>
     </div>
@@ -1400,12 +1335,10 @@ function applyGameUpdate(tid, c1, c2, st) {
     }
 
     /* colour the right box: amber if close (40-60%), green if leading, red if trailing */
-    var pctColor = winPct >= 60 ? '#10b981' : winPct <= 40 ? '#ef4444' : '#f0b429';
-
-    /* update right box to show live win% */
+    /* apply conditional color class to rbox */
     var rbox = card.querySelector('.rbox');
     if (rbox) {
-      rbox.style.borderColor = pctColor;
+      rbox.className = 'rbox ' + (winPct >= 75 ? 'pct-hot' : winPct >= 55 ? 'pct-good' : winPct >= 45 ? 'pct-even' : winPct >= 25 ? 'pct-dog' : 'pct-longshot');
       rbox.style.boxShadow   = '0 0 14px ' + pctColor + '22';
       rbox.innerHTML =
         '<div class="rbox-main" style="color:' + pctColor + '">' + winPct + '<span class="rbox-sup">%</span></div>' +
@@ -1689,7 +1622,7 @@ function refreshAllCardPayouts() {
     var chv  = POTS.champ;
     var fmt  = function(v) { return v > 0 ? '$' + Math.ceil(v).toLocaleString() : '$0'; };
 
-    /* Update milestone row values */
+    /* Update milestone row values — skip R1 for teams that already locked it */
     var card = document.querySelector('[data-tid="' + tid + '"]');
     if (!card) return;
     var mRows = card.querySelectorAll('.ms');
@@ -1697,7 +1630,10 @@ function refreshAllCardPayouts() {
     var vals   = [r1v, s16v, e8v, f4v, finv, chv];
     mRows.forEach(function(row, i) {
       var vEl = row.querySelector('.ms-v');
-      if (vEl && vals[i] !== undefined) vEl.textContent = fmt(vals[i]);
+      if (!vEl) return;
+      /* Don't overwrite already-earned R1 milestone */
+      if (i === 0 && row.classList.contains('earned')) return;
+      if (vals[i] !== undefined) vEl.textContent = fmt(vals[i]);
     });
 
     /* Update result strip next$ value */
